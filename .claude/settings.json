@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "assistant": {
+      "command": "python",
+      "args": ["/Users/rsalakhiev/Desktop/mirit-assistant/mcp_server.py"],
+      "env": {
+        "DB_PATH": "/Users/rsalakhiev/Desktop/mirit-assistant/data/assistant.db"
+      }
+    }
+  }
+}
