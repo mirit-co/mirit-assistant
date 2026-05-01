@@ -1,8 +1,6 @@
 import logging
-from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException, Request
-from telegram import Bot, Update
+from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 
 import config
@@ -12,22 +10,6 @@ from storage.db import get_or_create_user, init_db
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-bot_app = Application.builder().token(config.TELEGRAM_BOT_TOKEN).build()
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    init_db()
-    await bot_app.initialize()
-    bot = Bot(token=config.TELEGRAM_BOT_TOKEN)
-    await bot.set_webhook(url=config.WEBHOOK_URL, secret_token=config.WEBHOOK_SECRET)
-    logger.info("Webhook set: %s", config.WEBHOOK_URL)
-    yield
-    await bot_app.shutdown()
-
-
-fastapi_app = FastAPI(lifespan=lifespan)
 
 
 def is_allowed(telegram_id: int) -> bool:
@@ -89,23 +71,15 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(response, parse_mode="Markdown")
 
 
-bot_app.add_handler(CommandHandler("start", handle_start))
-bot_app.add_handler(CommandHandler("help", handle_help))
-bot_app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+def main():
+    init_db()
+    app = Application.builder().token(config.TELEGRAM_BOT_TOKEN).build()
+    app.add_handler(CommandHandler("start", handle_start))
+    app.add_handler(CommandHandler("help", handle_help))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+    logger.info("Starting polling...")
+    app.run_polling()
 
 
-@fastapi_app.post("/webhook")
-async def webhook(request: Request):
-    secret = request.headers.get("X-Telegram-Bot-Api-Secret-Token")
-    if secret != config.WEBHOOK_SECRET:
-        raise HTTPException(status_code=403, detail="Invalid secret")
-
-    data = await request.json()
-    update = Update.de_json(data, bot_app.bot)
-    await bot_app.process_update(update)
-    return {"ok": True}
-
-
-@fastapi_app.get("/health")
-async def health():
-    return {"status": "ok"}
+if __name__ == "__main__":
+    main()

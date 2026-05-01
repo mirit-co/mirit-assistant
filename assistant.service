@@ -7,7 +7,7 @@ Type=simple
 User=assistant
 WorkingDirectory=/opt/assistant
 EnvironmentFile=/opt/assistant/.env
-ExecStart=/opt/assistant/venv/bin/uvicorn main:fastapi_app --host 0.0.0.0 --port 8443
+ExecStart=/opt/assistant/venv/bin/python main.py
 Restart=on-failure
 RestartSec=5
 

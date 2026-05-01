@@ -5,8 +5,6 @@ load_dotenv()
 
 TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
-WEBHOOK_URL = os.environ["WEBHOOK_URL"]
-WEBHOOK_SECRET = os.environ["WEBHOOK_SECRET"]
 ALLOWED_USERS = [
     int(uid.strip())
     for uid in os.environ.get("ALLOWED_USERS", "").split(",")
