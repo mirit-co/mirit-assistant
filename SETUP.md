@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - Ubuntu 22.04+ droplet
-- Python 3.11+
+- Docker + Docker Compose ([установка](https://docs.docker.com/engine/install/ubuntu/))
 
 ---
 
@@ -12,23 +12,36 @@
 ```bash
 # 1. Clone repo
 git clone https://github.com/mirit-co/mirit-assistant.git ~/assistant
+cd ~/assistant
 
-# 2. Virtualenv
-python3 -m venv ~/assistant/venv
-~/assistant/venv/bin/pip install -r ~/assistant/requirements.txt
-
-# 3. Environment
-cp ~/assistant/.env.example ~/assistant/.env
-nano ~/assistant/.env
+# 2. Environment
+cp .env.example .env
+nano .env
 # Заполни: TELEGRAM_BOT_TOKEN, ANTHROPIC_API_KEY, ALLOWED_USERS
 
-# 4. systemd service
-cp ~/assistant/assistant.service /etc/systemd/system/
-systemctl daemon-reload
-systemctl enable --now assistant
+# 3. Запустить
+docker compose up -d
 
-# 5. Проверить логи
-journalctl -u assistant -f
+# 4. Проверить логи
+docker compose logs -f
+```
+
+---
+
+## Полезные команды
+
+```bash
+# Статус
+docker compose ps
+
+# Логи
+docker compose logs -f
+
+# Перезапуск
+docker compose restart
+
+# Остановить
+docker compose down
 ```
 
 ---
@@ -43,7 +56,7 @@ Secrets в GitHub → Settings → Secrets → Actions:
 | `SSH_USERNAME` | `root` |
 | `SSH_PRIVATE_KEY` | Приватный SSH-ключ |
 
-Каждый пуш в `main`: lint → SSH на дроплет → `git pull` → `pip install` → `systemctl restart assistant`.
+Каждый пуш в `main`: lint → SSH на дроплет → `git pull` → `docker compose build` → `docker compose up -d`.
 
 ---
 
@@ -60,7 +73,7 @@ cp ~/assistant/data/assistant.db ~/assistant_backup_$(date +%Y%m%d).db
 1. Create `skills_registry/myskill.md` with actions and descriptions
 2. Create `skills/myskill.py` extending `BaseSkill`
 3. Register in `dispatcher.py` SKILLS dict
-4. Push — router picks up the new `.md` automatically on next request
+4. Push — CI/CD пересоберёт и перезапустит контейнер
 
 ---
 
@@ -74,5 +87,3 @@ cp .env.example .env
 python -c "from storage.db import init_db; init_db()"
 python mcp_server.py
 ```
-
-The MCP server is auto-registered in `.claude/settings.json` — restart Claude Code to pick it up.

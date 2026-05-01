@@ -33,5 +33,5 @@ jobs:
           script: |
             cd ~/assistant
             git pull origin main
-            venv/bin/pip install -r requirements.txt --quiet
-            systemctl restart assistant
+            docker compose build --quiet
+            docker compose up -d
