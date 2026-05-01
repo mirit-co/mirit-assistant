@@ -5,9 +5,9 @@ After=network.target
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/opt/assistant
-EnvironmentFile=/opt/assistant/.env
-ExecStart=/opt/assistant/venv/bin/python main.py
+WorkingDirectory=/root/assistant
+EnvironmentFile=/root/assistant/.env
+ExecStart=/root/assistant/venv/bin/python main.py
 Restart=on-failure
 RestartSec=5
 

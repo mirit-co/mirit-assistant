@@ -10,80 +10,47 @@
 ## One-time Server Setup
 
 ```bash
-# 1. Project directory
-mkdir -p /opt/assistant/data
+# 1. Clone repo
+git clone https://github.com/mirit-co/mirit-assistant.git ~/assistant
 
-# 2. Clone repo
-git clone https://github.com/mirit-co/mirit-assistant.git /opt/assistant
+# 2. Virtualenv
+python3 -m venv ~/assistant/venv
+~/assistant/venv/bin/pip install -r ~/assistant/requirements.txt
 
-# 3. Virtualenv
-python3 -m venv /opt/assistant/venv
-/opt/assistant/venv/bin/pip install -r /opt/assistant/requirements.txt
+# 3. Environment
+cp ~/assistant/.env.example ~/assistant/.env
+nano ~/assistant/.env
+# Заполни: TELEGRAM_BOT_TOKEN, ANTHROPIC_API_KEY, ALLOWED_USERS
 
-# 4. Environment
-cp /opt/assistant/.env.example /opt/assistant/.env
-# Edit .env with your actual values: TELEGRAM_BOT_TOKEN, ANTHROPIC_API_KEY, ALLOWED_USERS
-
-# 5. systemd service
-cp /opt/assistant/assistant.service /etc/systemd/system/
+# 4. systemd service
+cp ~/assistant/assistant.service /etc/systemd/system/
 systemctl daemon-reload
 systemctl enable --now assistant
 
-# 8. Check logs
+# 5. Проверить логи
 journalctl -u assistant -f
-```
-
----
-
-## Nginx Reverse Proxy
-
-```nginx
-server {
-    listen 443 ssl;
-    server_name your-domain.com;
-
-    ssl_certificate /etc/letsencrypt/live/your-domain.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/your-domain.com/privkey.pem;
-
-    location /webhook {
-        proxy_pass http://127.0.0.1:8443;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-
-    location /health {
-        proxy_pass http://127.0.0.1:8443;
-    }
-}
-```
-
-Get SSL cert:
-```bash
-certbot --nginx -d your-domain.com
 ```
 
 ---
 
 ## CI/CD (GitHub Actions)
 
-Set these secrets in GitHub → Settings → Secrets → Actions:
+Secrets в GitHub → Settings → Secrets → Actions:
 
 | Secret | Value |
 |--------|-------|
-| `SSH_HOST` | Droplet IP or hostname |
-| `SSH_USERNAME` | SSH user (e.g. `root`) |
-| `SSH_PRIVATE_KEY` | Private SSH key (server must have matching public key in `~/.ssh/authorized_keys`) |
+| `SSH_HOST` | IP дроплета |
+| `SSH_USERNAME` | `root` |
+| `SSH_PRIVATE_KEY` | Приватный SSH-ключ |
 
-Every push to `main` will:
-1. Run `ruff check` linter
-2. SSH into the droplet, `git pull`, reinstall deps, restart service
+Каждый пуш в `main`: lint → SSH на дроплет → `git pull` → `pip install` → `systemctl restart assistant`.
 
 ---
 
 ## Database Backup
 
 ```bash
-cp /opt/assistant/data/assistant.db /backup/assistant_$(date +%Y%m%d).db
+cp ~/assistant/data/assistant.db ~/assistant_backup_$(date +%Y%m%d).db
 ```
 
 ---
@@ -103,14 +70,8 @@ cp /opt/assistant/data/assistant.db /backup/assistant_$(date +%Y%m%d).db
 cd /Users/rsalakhiev/Desktop/mirit-assistant
 python -m venv venv
 venv/bin/pip install -r requirements.txt
-
-# Copy and fill env
 cp .env.example .env
-
-# Init DB
 python -c "from storage.db import init_db; init_db()"
-
-# Start MCP server (for Claude Code tools)
 python mcp_server.py
 ```
 
