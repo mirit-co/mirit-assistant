@@ -3,37 +3,28 @@
 ## Prerequisites
 
 - Ubuntu 22.04+ droplet
-- Domain pointed at the droplet (for Telegram webhook HTTPS)
 - Python 3.11+
-- Nginx + Certbot
 
 ---
 
 ## One-time Server Setup
 
 ```bash
-# 1. System user
-useradd -r -s /bin/false assistant
-
-# 2. Project directory
+# 1. Project directory
 mkdir -p /opt/assistant/data
 
-# 3. Clone repo
-git clone https://github.com/YOUR_USERNAME/mirit-assistant.git /opt/assistant
+# 2. Clone repo
+git clone https://github.com/mirit-co/mirit-assistant.git /opt/assistant
 
-# 4. Virtualenv
+# 3. Virtualenv
 python3 -m venv /opt/assistant/venv
 /opt/assistant/venv/bin/pip install -r /opt/assistant/requirements.txt
 
-# 5. Environment
+# 4. Environment
 cp /opt/assistant/.env.example /opt/assistant/.env
-# Edit .env with your actual values:
-# TELEGRAM_BOT_TOKEN, ANTHROPIC_API_KEY, WEBHOOK_URL, WEBHOOK_SECRET, ALLOWED_USERS
+# Edit .env with your actual values: TELEGRAM_BOT_TOKEN, ANTHROPIC_API_KEY, ALLOWED_USERS
 
-# 6. Permissions
-chown -R assistant:assistant /opt/assistant
-
-# 7. systemd service
+# 5. systemd service
 cp /opt/assistant/assistant.service /etc/systemd/system/
 systemctl daemon-reload
 systemctl enable --now assistant

@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-User=assistant
+User=root
 WorkingDirectory=/opt/assistant
 EnvironmentFile=/opt/assistant/.env
 ExecStart=/opt/assistant/venv/bin/python main.py
