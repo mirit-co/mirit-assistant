@@ -4,8 +4,8 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 import config
-from handlers.lists import build_handler as lists_handler
-from handlers.knowledge import build_handler as knowledge_handler
+from bot.handlers.lists import build_handler as lists_handler
+from bot.handlers.knowledge import build_handler as knowledge_handler
 from storage.db import init_db
 
 logging.basicConfig(level=logging.INFO)

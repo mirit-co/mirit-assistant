@@ -1,15 +1,7 @@
-import os
-
-from skills.base import BaseSkill
 from storage.db import get_conn
 
-_registry_path = os.path.join(os.path.dirname(__file__), "..", "skills_registry", "knowledge.md")
 
-
-class KnowledgeSkill(BaseSkill):
-    name = "knowledge"
-    description = open(_registry_path).read()
-
+class Knowledge:
     def execute(self, action: str, params: dict, user_id: int) -> str:
         if action == "save":
             return self._save(user_id, params)
@@ -19,8 +11,7 @@ class KnowledgeSkill(BaseSkill):
             return self._list(user_id, params.get("limit", 10))
         elif action == "get":
             return self._get(user_id, params.get("note_id"))
-        else:
-            return f"Неизвестное действие: {action}"
+        return f"Неизвестное действие: {action}"
 
     def _save(self, user_id: int, params: dict) -> str:
         content = params.get("content", "")
@@ -64,7 +55,7 @@ class KnowledgeSkill(BaseSkill):
                 (user_id, limit),
             ).fetchall()
         if not rows:
-            return "База знаний пуста. Сохрани первую заметку!"
+            return "База знаний пуста."
         lines = [
             f"[{r['id']}] {r['title'] or 'без названия'} — {r['created_at'][:10]}"
             for r in rows

@@ -1,15 +1,7 @@
-import os
-
-from skills.base import BaseSkill
 from storage.db import get_conn
 
-_registry_path = os.path.join(os.path.dirname(__file__), "..", "skills_registry", "lists.md")
 
-
-class ListsSkill(BaseSkill):
-    name = "lists"
-    description = open(_registry_path).read()
-
+class Lists:
     def execute(self, action: str, params: dict, user_id: int) -> str:
         if action == "add":
             return self._add(user_id, params.get("list_name", "misc"), params.get("item", ""))
@@ -21,8 +13,7 @@ class ListsSkill(BaseSkill):
             return self._delete(user_id, params.get("list_name", ""), params.get("item", ""))
         elif action == "all_lists":
             return self._all_lists(user_id)
-        else:
-            return f"Неизвестное действие: {action}"
+        return f"Неизвестное действие: {action}"
 
     def _add(self, user_id: int, list_name: str, item: str) -> str:
         if not item:

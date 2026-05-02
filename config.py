@@ -11,8 +11,4 @@ ALLOWED_USERS = [
     if uid.strip()
 ]
 
-ROUTER_MODEL = "claude-haiku-4-5-20251001"
-SMART_MODEL = "claude-sonnet-4-5-20251015"
-
 DB_PATH = os.environ.get("DB_PATH", os.path.join(os.path.dirname(__file__), "data", "assistant.db"))
-SKILLS_REGISTRY_PATH = os.path.join(os.path.dirname(__file__), "skills_registry")

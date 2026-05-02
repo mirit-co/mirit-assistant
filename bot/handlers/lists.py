@@ -8,12 +8,11 @@ from telegram.ext import (
     filters,
 )
 
-from skills.lists import ListsSkill
-from storage.db import get_or_create_user
+from bot.commands.lists import Lists
+from storage.db import get_conn, get_or_create_user
 
-skill = ListsSkill()
+command = Lists()
 
-# States
 VIEW_LISTS, VIEW_ITEMS, WAIT_ADD_ITEM = range(3)
 
 
@@ -23,7 +22,6 @@ def _uid(update: Update) -> int:
 
 
 def _lists_keyboard(user_id: int) -> InlineKeyboardMarkup:
-    from storage.db import get_conn
     with get_conn() as conn:
         rows = conn.execute(
             "SELECT DISTINCT list_name FROM lists WHERE user_id=? ORDER BY list_name",
@@ -35,7 +33,6 @@ def _lists_keyboard(user_id: int) -> InlineKeyboardMarkup:
 
 
 def _items_keyboard(user_id: int, list_name: str) -> InlineKeyboardMarkup:
-    from storage.db import get_conn
     with get_conn() as conn:
         rows = conn.execute(
             "SELECT item, done FROM lists WHERE user_id=? AND list_name=? ORDER BY created_at",
@@ -76,8 +73,7 @@ async def on_list_selected(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     query = update.callback_query
     await query.answer()
     uid = _uid(update)
-    data = query.data  # "list:<name>" or "list:__new__"
-    list_name = data.split(":", 1)[1]
+    list_name = query.data.split(":", 1)[1]
 
     if list_name == "__new__":
         await query.edit_message_text("Напиши название нового списка:")
@@ -115,7 +111,7 @@ async def on_done(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await query.answer()
     uid = _uid(update)
     _, list_name, item = query.data.split(":", 2)
-    skill.execute("done", {"list_name": list_name, "item": item}, uid)
+    command.execute("done", {"list_name": list_name, "item": item}, uid)
     kb = _items_keyboard(uid, list_name)
     await query.edit_message_text(f"📋 *{list_name}*", parse_mode="Markdown", reply_markup=kb)
     return VIEW_ITEMS
@@ -126,7 +122,7 @@ async def on_delete(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await query.answer()
     uid = _uid(update)
     _, list_name, item = query.data.split(":", 2)
-    skill.execute("delete", {"list_name": list_name, "item": item}, uid)
+    command.execute("delete", {"list_name": list_name, "item": item}, uid)
     kb = _items_keyboard(uid, list_name)
     await query.edit_message_text(f"📋 *{list_name}*", parse_mode="Markdown", reply_markup=kb)
     return VIEW_ITEMS
@@ -147,13 +143,12 @@ async def receive_item_text(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     list_name = context.user_data.get("adding_to", "misc")
 
     if list_name == "__new_list__":
-        # Just show the new (empty) list
         context.user_data["current_list"] = text
         kb = _items_keyboard(uid, text)
         await update.message.reply_text(f"📋 *{text}*", parse_mode="Markdown", reply_markup=kb)
         return VIEW_ITEMS
 
-    skill.execute("add", {"list_name": list_name, "item": text}, uid)
+    command.execute("add", {"list_name": list_name, "item": text}, uid)
     kb = _items_keyboard(uid, list_name)
     await update.message.reply_text(
         f"✅ Добавил «{text}»\n\n📋 *{list_name}*", parse_mode="Markdown", reply_markup=kb

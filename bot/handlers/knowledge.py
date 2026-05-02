@@ -8,15 +8,13 @@ from telegram.ext import (
     filters,
 )
 
-from skills.knowledge import KnowledgeSkill
+from bot.commands.knowledge import Knowledge
 from storage.db import get_conn, get_or_create_user
 
-skill = KnowledgeSkill()
+command = Knowledge()
 
-# States
 VIEW_CATEGORIES, VIEW_CATEGORY, WAIT_SEARCH, WAIT_ADD = range(4)
 
-# Категории — расширяй по мере надобности
 CATEGORIES = [
     ("Georgian Contacts", "georgian-contacts"),
     ("Notes", "notes"),
@@ -101,7 +99,10 @@ async def on_add(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await query.answer()
     cat_key = query.data.split(":", 1)[1]
     context.user_data["cat_key"] = cat_key
-    await query.edit_message_text("Напиши заметку (можно с заголовком через «:»):\nПример: *Гия Мамаладзе: +995 555 123456*", parse_mode="Markdown")
+    await query.edit_message_text(
+        "Напиши заметку (можно с заголовком через «:»):\nПример: *Гия Мамаладзе: +995 555 123456*",
+        parse_mode="Markdown",
+    )
     return WAIT_ADD
 
 
@@ -118,7 +119,6 @@ async def receive_search(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     cat_key = context.user_data.get("cat_key", "")
     cat_label = next((label for label, k in CATEGORIES if k == cat_key), cat_key)
 
-    # Search within category (tagged with cat_key)
     with get_conn() as conn:
         rows = conn.execute(
             """SELECT id, title, content, created_at FROM notes
@@ -148,7 +148,6 @@ async def receive_add(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     cat_key = context.user_data.get("cat_key", "notes")
     cat_label = next((label for label, k in CATEGORIES if k == cat_key), cat_key)
 
-    # Split "Title: content" if colon present
     if ":" in text:
         title, content = text.split(":", 1)
         title = title.strip()
@@ -156,7 +155,7 @@ async def receive_add(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     else:
         title, content = "", text
 
-    skill.execute("save", {"content": content, "title": title, "tags": cat_key}, uid)
+    command.execute("save", {"content": content, "title": title, "tags": cat_key}, uid)
     await update.message.reply_text(
         f"💾 Сохранено в *{cat_label}*", parse_mode="Markdown",
         reply_markup=_category_keyboard(cat_key),
