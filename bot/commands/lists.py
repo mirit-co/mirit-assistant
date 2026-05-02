@@ -17,6 +17,8 @@ class Lists:
             return self._toggle(user_id, params.get("list_name", ""), params.get("item_id", 0))
         elif action == "reset_all":
             return self._reset_all(user_id, params.get("list_name", ""))
+        elif action == "delete_by_id":
+            return self._delete_by_id(user_id, params.get("item_id", 0))
         return f"Неизвестное действие: {action}"
 
     def _add(self, user_id: int, list_name: str, item: str) -> str:
@@ -67,6 +69,11 @@ class Lists:
                 "UPDATE lists SET done = 1 - done WHERE id=? AND user_id=? AND list_name=?",
                 (item_id, user_id, list_name),
             )
+        return "ok"
+
+    def _delete_by_id(self, user_id: int, item_id: int) -> str:
+        with get_conn() as conn:
+            conn.execute("DELETE FROM lists WHERE id=? AND user_id=?", (item_id, user_id))
         return "ok"
 
     def _reset_all(self, user_id: int, list_name: str) -> str:
