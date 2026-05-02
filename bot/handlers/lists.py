@@ -205,6 +205,7 @@ def build_handler() -> ConversationHandler:
                 MessageHandler(filters.TEXT & ~filters.COMMAND, receive_item_text),
             ],
         },
-        fallbacks=[CommandHandler("cancel", cancel)],
+        fallbacks=[CommandHandler("cancel", cancel), CommandHandler("lists", cmd_lists)],
+        allow_reentry=True,
         per_message=False,
     )
