@@ -1,4 +1,5 @@
 import logging
+import traceback
 
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
@@ -10,6 +11,10 @@ from storage.db import init_db
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+    logger.error("Exception while handling update %s:\n%s", update, traceback.format_exc())
 
 
 def is_allowed(telegram_id: int) -> bool:
@@ -49,6 +54,7 @@ def main():
     app.add_handler(CommandHandler("help", handle_help))
     app.add_handler(lists_handler())
     app.add_handler(knowledge_handler())
+    app.add_error_handler(error_handler)
 
     logger.info("Starting polling...")
     app.run_polling()
