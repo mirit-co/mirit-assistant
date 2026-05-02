@@ -39,7 +39,8 @@ lists       — user_id, list_name, item, done
 notes       — user_id, title, content, tags, created_at
 ```
 
-SQLite файл: `./data/assistant.db` (volume mount в Docker).
+SQLite файл живёт **на дроплете**: `~/assistant/data/assistant.db`.
+Локальная БД не используется. Все запросы — только через SSH:
 
 ## Adding a new flow
 
@@ -57,11 +58,52 @@ cp .env.example .env  # заполнить токены
 python main.py        # Telegram bot (polling)
 ```
 
+## Тестирование перед деплоем
+
+Для проверки изменений локально используется отдельный тест-бот.
+Токен хранится в `.env` как `TEST_TELEGRAM_BOT_TOKEN`.
+Когда он задан — `config.py` автоматически использует его вместо `TELEGRAM_BOT_TOKEN`.
+
+```bash
+# .env
+TEST_TELEGRAM_BOT_TOKEN=токен_тест_бота
+
+python main.py  # запустит тест-бота локально
+```
+
+Рабочий процесс: **тест-бот локально → убедился → git push → деплой на дроплет**.
+
 ## Deploy
 
 Docker Compose на дроплете `165.232.116.241`.
 CI/CD: GitHub Actions → SSH → `git pull` → `docker compose build` → `docker compose up -d`.
 Secrets: `SSH_HOST`, `SSH_USERNAME`, `SSH_PRIVATE_KEY`.
+
+## Подключения (важно — читай перед любой операцией)
+
+### Git push
+Remote должен быть SSH, не HTTPS:
+```bash
+git remote set-url origin git@github.com:mirit-co/mirit-assistant.git
+```
+SSH-ключ для GitHub: стандартный `~/.ssh/id_rsa` или `~/.ssh/id_ed25519`.
+
+### SSH на дроплет
+```bash
+ssh -i ~/.ssh/kartuli_bot_deploy root@165.232.116.241
+```
+
+### БД — только через SSH
+```bash
+ssh -i ~/.ssh/kartuli_bot_deploy root@165.232.116.241 "sqlite3 ~/assistant/data/assistant.db 'SELECT ...'"
+```
+Никогда не использовать `sqlite3 data/assistant.db` локально — живой базы там нет.
+
+### Логи Docker на дроплете
+`docker compose logs --tail` и `-n` не работают. Использовать:
+```bash
+ssh -i ~/.ssh/kartuli_bot_deploy root@165.232.116.241 "cd ~/assistant && docker compose logs 2>&1 | tail -50"
+```
 
 ## Claude Code skills
 

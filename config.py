@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
+TELEGRAM_BOT_TOKEN = os.environ.get("TEST_TELEGRAM_BOT_TOKEN") or os.environ["TELEGRAM_BOT_TOKEN"]
 ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
 ALLOWED_USERS = [
     int(uid.strip())
