@@ -60,15 +60,22 @@ python main.py        # Telegram bot (polling)
 
 ## Тестирование перед деплоем
 
+**Любую новую фичу сначала проверяй на тестовом боте. Только если всё работает — делай git push и деплой.**
+
 Для проверки изменений локально используется отдельный тест-бот.
 Токен хранится в `.env` как `TEST_TELEGRAM_BOT_TOKEN`.
 Когда он задан — `config.py` автоматически использует его вместо `TELEGRAM_BOT_TOKEN`.
 
 ```bash
-# .env
-TEST_TELEGRAM_BOT_TOKEN=токен_тест_бота
+# 1. Убедись, что в .env есть токен тест-бота:
+#    TEST_TELEGRAM_BOT_TOKEN=токен_тест_бота
 
-python main.py  # запустит тест-бота локально
+# 2. Создай и активируй venv (один раз):
+python3 -m venv venv
+venv/bin/pip install -r requirements.txt
+
+# 3. Запускай тест-бота:
+venv/bin/python main.py
 ```
 
 Рабочий процесс: **тест-бот локально → убедился → git push → деплой на дроплет**.

@@ -179,8 +179,7 @@ async def receive_item_text(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     return VIEW_ITEMS
 
 
-async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text("Отменено.")
+async def end_conversation(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return ConversationHandler.END
 
 
@@ -205,7 +204,7 @@ def build_handler() -> ConversationHandler:
                 MessageHandler(filters.TEXT & ~filters.COMMAND, receive_item_text),
             ],
         },
-        fallbacks=[CommandHandler("cancel", cancel), CommandHandler("lists", cmd_lists)],
+        fallbacks=[CommandHandler("start", end_conversation), CommandHandler("lists", cmd_lists)],
         allow_reentry=True,
         per_message=False,
     )

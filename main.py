@@ -31,7 +31,6 @@ async def handle_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Команды:\n"
         "/lists — управление списками\n"
         "/knowledge — база знаний\n"
-        "/cancel — отменить текущее действие\n"
         "/help — справка"
     )
 
@@ -41,8 +40,7 @@ async def handle_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     await update.message.reply_text(
         "/lists — книги, фильмы, идеи и другие списки\n"
-        "/knowledge — база знаний по категориям\n"
-        "/cancel — выйти из текущего сценария"
+        "/knowledge — база знаний по категориям"
     )
 
 
