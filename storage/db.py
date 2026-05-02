@@ -31,6 +31,14 @@ def init_db():
                 FOREIGN KEY (user_id) REFERENCES users(id)
             );
 
+            CREATE TABLE IF NOT EXISTS list_meta (
+                user_id INTEGER NOT NULL,
+                list_name TEXT NOT NULL,
+                is_shared INTEGER DEFAULT 0,
+                PRIMARY KEY (user_id, list_name),
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            );
+
             CREATE TABLE IF NOT EXISTS notes (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
