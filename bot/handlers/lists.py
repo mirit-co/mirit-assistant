@@ -32,27 +32,36 @@ def _lists_keyboard(user_id: int) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(buttons)
 
 
-def _items_keyboard(user_id: int, list_name: str) -> InlineKeyboardMarkup:
+def _items_keyboard(user_id: int, list_name: str, edit_mode: bool = False) -> InlineKeyboardMarkup:
     with get_conn() as conn:
         rows = conn.execute(
             "SELECT id, item, done FROM lists WHERE user_id=? AND list_name=? ORDER BY created_at",
             (user_id, list_name),
         ).fetchall()
     buttons = []
-    for row in rows:
-        mark = "🟢" if row["done"] else "⚪"
+    if edit_mode:
+        for row in rows:
+            buttons.append([InlineKeyboardButton(
+                f"🗑  {row['item']}",
+                callback_data=f"delete:{list_name}:{row['id']}",
+            )])
         buttons.append([
-            InlineKeyboardButton(
+            InlineKeyboardButton("✅ Готово", callback_data=f"done_edit:{list_name}"),
+            InlineKeyboardButton("← Назад", callback_data="back:lists"),
+        ])
+    else:
+        for row in rows:
+            mark = "🟢" if row["done"] else "⚪"
+            buttons.append([InlineKeyboardButton(
                 f"{mark}  {row['item']}",
                 callback_data=f"toggle:{list_name}:{row['id']}",
-            ),
-            InlineKeyboardButton("🗑", callback_data=f"delete:{list_name}:{row['id']}"),
+            )])
+        buttons.append([
+            InlineKeyboardButton("➕ Добавить", callback_data=f"add:{list_name}"),
+            InlineKeyboardButton("🗑 Изменить", callback_data=f"edit_mode:{list_name}"),
+            InlineKeyboardButton("🔄 Сбросить", callback_data=f"reset_all:{list_name}"),
         ])
-    buttons.append([
-        InlineKeyboardButton("➕ Добавить", callback_data=f"add:{list_name}"),
-        InlineKeyboardButton("🔄 Сбросить всё", callback_data=f"reset_all:{list_name}"),
-        InlineKeyboardButton("← Назад", callback_data="back:lists"),
-    ])
+        buttons.append([InlineKeyboardButton("← Назад", callback_data="back:lists")])
     return InlineKeyboardMarkup(buttons)
 
 
@@ -91,13 +100,22 @@ async def on_toggle(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return VIEW_ITEMS
 
 
-async def on_reset_all(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def on_enter_edit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     query = update.callback_query
     await query.answer()
     uid = _uid(update)
     list_name = query.data.split(":", 1)[1]
-    command.execute("reset_all", {"list_name": list_name}, uid)
-    kb = _items_keyboard(uid, list_name)
+    kb = _items_keyboard(uid, list_name, edit_mode=True)
+    await query.edit_message_reply_markup(reply_markup=kb)
+    return VIEW_ITEMS
+
+
+async def on_exit_edit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    query = update.callback_query
+    await query.answer()
+    uid = _uid(update)
+    list_name = query.data.split(":", 1)[1]
+    kb = _items_keyboard(uid, list_name, edit_mode=False)
     await query.edit_message_reply_markup(reply_markup=kb)
     return VIEW_ITEMS
 
@@ -108,6 +126,17 @@ async def on_delete(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     uid = _uid(update)
     _, list_name, item_id = query.data.split(":", 2)
     command.execute("delete_by_id", {"item_id": int(item_id)}, uid)
+    kb = _items_keyboard(uid, list_name, edit_mode=True)
+    await query.edit_message_reply_markup(reply_markup=kb)
+    return VIEW_ITEMS
+
+
+async def on_reset_all(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    query = update.callback_query
+    await query.answer()
+    uid = _uid(update)
+    list_name = query.data.split(":", 1)[1]
+    command.execute("reset_all", {"list_name": list_name}, uid)
     kb = _items_keyboard(uid, list_name)
     await query.edit_message_reply_markup(reply_markup=kb)
     return VIEW_ITEMS
@@ -165,8 +194,10 @@ def build_handler() -> ConversationHandler:
             VIEW_ITEMS: [
                 CallbackQueryHandler(on_list_selected, pattern=r"^list:"),
                 CallbackQueryHandler(on_toggle, pattern=r"^toggle:"),
-                CallbackQueryHandler(on_reset_all, pattern=r"^reset_all:"),
+                CallbackQueryHandler(on_enter_edit, pattern=r"^edit_mode:"),
+                CallbackQueryHandler(on_exit_edit, pattern=r"^done_edit:"),
                 CallbackQueryHandler(on_delete, pattern=r"^delete:"),
+                CallbackQueryHandler(on_reset_all, pattern=r"^reset_all:"),
                 CallbackQueryHandler(on_add, pattern=r"^add:"),
                 CallbackQueryHandler(on_back_lists, pattern=r"^back:lists"),
             ],
