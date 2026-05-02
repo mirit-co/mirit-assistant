@@ -9,6 +9,7 @@ from telegram.ext import (
 )
 
 from bot.commands.lists import Lists
+from bot.handlers.common import MAIN_MENU_TEXT, main_menu_keyboard
 from storage.db import get_conn, get_or_create_user
 
 command = Lists()
@@ -77,7 +78,7 @@ def _lists_keyboard(user_id: int) -> InlineKeyboardMarkup:
                 callback_data=f"list:s:{r['owner_id']}:{r['list_name']}",
             )])
 
-    buttons.append([InlineKeyboardButton("✏️ Новый список", callback_data="list:__new__")])
+    buttons.append([InlineKeyboardButton("← Назад", callback_data="back:main")])
     return InlineKeyboardMarkup(buttons)
 
 
@@ -131,16 +132,28 @@ async def cmd_lists(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return VIEW_LISTS
 
 
+async def cmd_lists_cb(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    query = update.callback_query
+    await query.answer()
+    uid = _uid(update)
+    kb = _lists_keyboard(uid)
+    await query.edit_message_text("📚 Твои списки:", reply_markup=kb)
+    return VIEW_LISTS
+
+
+async def back_to_main(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    query = update.callback_query
+    await query.answer()
+    context.user_data.pop("owner_uid", None)
+    await query.edit_message_text(MAIN_MENU_TEXT, reply_markup=main_menu_keyboard())
+    return ConversationHandler.END
+
+
 async def on_list_selected(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     query = update.callback_query
     await query.answer()
     uid = _uid(update)
     data = query.data[len("list:"):]
-
-    if data == "__new__":
-        await query.edit_message_text("Напиши название нового списка:")
-        context.user_data["adding_to"] = "__new_list__"
-        return WAIT_ADD_ITEM
 
     # Shared list from another user: list:s:{owner_id}:{list_name}
     if data.startswith("s:"):
@@ -252,13 +265,6 @@ async def receive_item_text(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     text = update.message.text.strip()
     list_name = context.user_data.get("adding_to", "misc")
 
-    if list_name == "__new_list__":
-        context.user_data["current_list"] = text
-        context.user_data["owner_uid"] = uid
-        kb = _items_keyboard(uid, text)
-        await update.message.reply_text(f"📋 *{text}*", parse_mode="Markdown", reply_markup=kb)
-        return VIEW_ITEMS
-
     command.execute("add", {"list_name": list_name, "item": text}, uid)
     kb = _items_keyboard(uid, list_name)
     await update.message.reply_text(
@@ -268,15 +274,21 @@ async def receive_item_text(update: Update, context: ContextTypes.DEFAULT_TYPE) 
 
 
 async def end_conversation(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    context.user_data.clear()
+    await update.message.reply_text(MAIN_MENU_TEXT, reply_markup=main_menu_keyboard())
     return ConversationHandler.END
 
 
 def build_handler() -> ConversationHandler:
     return ConversationHandler(
-        entry_points=[CommandHandler("lists", cmd_lists)],
+        entry_points=[
+            CommandHandler("lists", cmd_lists),
+            CallbackQueryHandler(cmd_lists_cb, pattern=r"^cmd:lists$"),
+        ],
         states={
             VIEW_LISTS: [
                 CallbackQueryHandler(noop, pattern=r"^noop$"),
+                CallbackQueryHandler(back_to_main, pattern=r"^back:main$"),
                 CallbackQueryHandler(on_list_selected, pattern=r"^list:"),
             ],
             VIEW_ITEMS: [

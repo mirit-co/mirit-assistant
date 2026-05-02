@@ -1,10 +1,11 @@
 import logging
 import traceback
 
-from telegram import Update
+from telegram import BotCommand, Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 import config
+from bot.handlers.common import MAIN_MENU_TEXT, main_menu_keyboard
 from bot.handlers.lists import build_handler as lists_handler
 from bot.handlers.knowledge import build_handler as knowledge_handler
 from storage.db import init_db
@@ -26,30 +27,21 @@ def is_allowed(telegram_id: int) -> bool:
 async def handle_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_allowed(update.effective_user.id):
         return
-    await update.message.reply_text(
-        "Привет! Я твой личный ассистент.\n\n"
-        "Команды:\n"
-        "/lists — управление списками\n"
-        "/knowledge — база знаний\n"
-        "/help — справка"
-    )
+    await update.message.reply_text(MAIN_MENU_TEXT, reply_markup=main_menu_keyboard())
 
 
-async def handle_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not is_allowed(update.effective_user.id):
-        return
-    await update.message.reply_text(
-        "/lists — книги, фильмы, идеи и другие списки\n"
-        "/knowledge — база знаний по категориям"
-    )
+async def post_init(app: Application) -> None:
+    await app.bot.set_my_commands([
+        BotCommand("lists", "Управление списками"),
+        BotCommand("knowledge", "База знаний"),
+    ])
 
 
 def main():
     init_db()
-    app = Application.builder().token(config.TELEGRAM_BOT_TOKEN).build()
+    app = Application.builder().token(config.TELEGRAM_BOT_TOKEN).post_init(post_init).build()
 
     app.add_handler(CommandHandler("start", handle_start))
-    app.add_handler(CommandHandler("help", handle_help))
     app.add_handler(lists_handler())
     app.add_handler(knowledge_handler())
     app.add_error_handler(error_handler)

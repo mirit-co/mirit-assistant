@@ -9,6 +9,7 @@ from telegram.ext import (
 )
 
 from bot.commands.knowledge import Knowledge
+from bot.handlers.common import MAIN_MENU_TEXT, main_menu_keyboard
 from storage.db import get_conn, get_or_create_user
 
 command = Knowledge()
@@ -28,6 +29,7 @@ def _uid(update: Update) -> int:
 
 def _categories_keyboard() -> InlineKeyboardMarkup:
     buttons = [[InlineKeyboardButton(label, callback_data=f"cat:{key}")] for label, key in CATEGORIES]
+    buttons.append([InlineKeyboardButton("← Назад", callback_data="back:main")])
     return InlineKeyboardMarkup(buttons)
 
 
@@ -47,6 +49,20 @@ def _category_keyboard(cat_key: str) -> InlineKeyboardMarkup:
 async def cmd_knowledge(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await update.message.reply_text("🗂 База знаний:", reply_markup=_categories_keyboard())
     return VIEW_CATEGORIES
+
+
+async def cmd_knowledge_cb(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    query = update.callback_query
+    await query.answer()
+    await query.edit_message_text("🗂 База знаний:", reply_markup=_categories_keyboard())
+    return VIEW_CATEGORIES
+
+
+async def back_to_main(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    query = update.callback_query
+    await query.answer()
+    await query.edit_message_text(MAIN_MENU_TEXT, reply_markup=main_menu_keyboard())
+    return ConversationHandler.END
 
 
 async def on_category(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -164,14 +180,20 @@ async def receive_add(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
 
 
 async def end_conversation(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    context.user_data.clear()
+    await update.message.reply_text(MAIN_MENU_TEXT, reply_markup=main_menu_keyboard())
     return ConversationHandler.END
 
 
 def build_handler() -> ConversationHandler:
     return ConversationHandler(
-        entry_points=[CommandHandler("knowledge", cmd_knowledge)],
+        entry_points=[
+            CommandHandler("knowledge", cmd_knowledge),
+            CallbackQueryHandler(cmd_knowledge_cb, pattern=r"^cmd:knowledge$"),
+        ],
         states={
             VIEW_CATEGORIES: [
+                CallbackQueryHandler(back_to_main, pattern=r"^back:main$"),
                 CallbackQueryHandler(on_category, pattern=r"^cat:"),
             ],
             VIEW_CATEGORY: [
