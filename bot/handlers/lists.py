@@ -35,31 +35,22 @@ def _lists_keyboard(user_id: int) -> InlineKeyboardMarkup:
 def _items_keyboard(user_id: int, list_name: str) -> InlineKeyboardMarkup:
     with get_conn() as conn:
         rows = conn.execute(
-            "SELECT item, done FROM lists WHERE user_id=? AND list_name=? ORDER BY created_at",
+            "SELECT id, item, done FROM lists WHERE user_id=? AND list_name=? ORDER BY created_at",
             (user_id, list_name),
         ).fetchall()
     buttons = []
     for row in rows:
-        mark = "✓" if row["done"] else "○"
+        mark = "☑" if row["done"] else "☐"
         buttons.append([InlineKeyboardButton(
             f"{mark} {row['item']}",
-            callback_data=f"item:{list_name}:{row['item']}",
+            callback_data=f"toggle:{list_name}:{row['id']}",
         )])
     buttons.append([
         InlineKeyboardButton("➕ Добавить", callback_data=f"add:{list_name}"),
+        InlineKeyboardButton("🔄 Сбросить всё", callback_data=f"reset_all:{list_name}"),
         InlineKeyboardButton("← Назад", callback_data="back:lists"),
     ])
     return InlineKeyboardMarkup(buttons)
-
-
-def _item_actions_keyboard(list_name: str, item: str) -> InlineKeyboardMarkup:
-    return InlineKeyboardMarkup([
-        [
-            InlineKeyboardButton("✓ Выполнено", callback_data=f"done:{list_name}:{item}"),
-            InlineKeyboardButton("🗑 Удалить", callback_data=f"delete:{list_name}:{item}"),
-        ],
-        [InlineKeyboardButton("← Назад", callback_data=f"list:{list_name}")],
-    ])
 
 
 async def cmd_lists(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -86,14 +77,25 @@ async def on_list_selected(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     return VIEW_ITEMS
 
 
-async def on_item_selected(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def on_toggle(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     query = update.callback_query
     await query.answer()
-    _, list_name, item = query.data.split(":", 2)
-    kb = _item_actions_keyboard(list_name, item)
-    await query.edit_message_text(
-        f"*{item}* в списке *{list_name}*", parse_mode="Markdown", reply_markup=kb
-    )
+    uid = _uid(update)
+    _, list_name, item_id = query.data.split(":", 2)
+    command.execute("toggle", {"list_name": list_name, "item_id": int(item_id)}, uid)
+    kb = _items_keyboard(uid, list_name)
+    await query.edit_message_reply_markup(reply_markup=kb)
+    return VIEW_ITEMS
+
+
+async def on_reset_all(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    query = update.callback_query
+    await query.answer()
+    uid = _uid(update)
+    list_name = query.data.split(":", 1)[1]
+    command.execute("reset_all", {"list_name": list_name}, uid)
+    kb = _items_keyboard(uid, list_name)
+    await query.edit_message_reply_markup(reply_markup=kb)
     return VIEW_ITEMS
 
 
@@ -104,28 +106,6 @@ async def on_add(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     context.user_data["adding_to"] = list_name
     await query.edit_message_text(f"Что добавить в *{list_name}*?", parse_mode="Markdown")
     return WAIT_ADD_ITEM
-
-
-async def on_done(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    query = update.callback_query
-    await query.answer()
-    uid = _uid(update)
-    _, list_name, item = query.data.split(":", 2)
-    command.execute("done", {"list_name": list_name, "item": item}, uid)
-    kb = _items_keyboard(uid, list_name)
-    await query.edit_message_text(f"📋 *{list_name}*", parse_mode="Markdown", reply_markup=kb)
-    return VIEW_ITEMS
-
-
-async def on_delete(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    query = update.callback_query
-    await query.answer()
-    uid = _uid(update)
-    _, list_name, item = query.data.split(":", 2)
-    command.execute("delete", {"list_name": list_name, "item": item}, uid)
-    kb = _items_keyboard(uid, list_name)
-    await query.edit_message_text(f"📋 *{list_name}*", parse_mode="Markdown", reply_markup=kb)
-    return VIEW_ITEMS
 
 
 async def on_back_lists(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -170,10 +150,9 @@ def build_handler() -> ConversationHandler:
             ],
             VIEW_ITEMS: [
                 CallbackQueryHandler(on_list_selected, pattern=r"^list:"),
-                CallbackQueryHandler(on_item_selected, pattern=r"^item:"),
+                CallbackQueryHandler(on_toggle, pattern=r"^toggle:"),
+                CallbackQueryHandler(on_reset_all, pattern=r"^reset_all:"),
                 CallbackQueryHandler(on_add, pattern=r"^add:"),
-                CallbackQueryHandler(on_done, pattern=r"^done:"),
-                CallbackQueryHandler(on_delete, pattern=r"^delete:"),
                 CallbackQueryHandler(on_back_lists, pattern=r"^back:lists"),
             ],
             WAIT_ADD_ITEM: [

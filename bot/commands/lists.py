@@ -13,6 +13,10 @@ class Lists:
             return self._delete(user_id, params.get("list_name", ""), params.get("item", ""))
         elif action == "all_lists":
             return self._all_lists(user_id)
+        elif action == "toggle":
+            return self._toggle(user_id, params.get("list_name", ""), params.get("item_id", 0))
+        elif action == "reset_all":
+            return self._reset_all(user_id, params.get("list_name", ""))
         return f"Неизвестное действие: {action}"
 
     def _add(self, user_id: int, list_name: str, item: str) -> str:
@@ -56,6 +60,22 @@ class Lists:
                 (user_id, list_name, f"%{item}%"),
             )
         return f"🗑 Удалил «{item}» из списка {list_name}"
+
+    def _toggle(self, user_id: int, list_name: str, item_id: int) -> str:
+        with get_conn() as conn:
+            conn.execute(
+                "UPDATE lists SET done = 1 - done WHERE id=? AND user_id=? AND list_name=?",
+                (item_id, user_id, list_name),
+            )
+        return "ok"
+
+    def _reset_all(self, user_id: int, list_name: str) -> str:
+        with get_conn() as conn:
+            conn.execute(
+                "UPDATE lists SET done=0 WHERE user_id=? AND list_name=?",
+                (user_id, list_name),
+            )
+        return "ok"
 
     def _all_lists(self, user_id: int) -> str:
         with get_conn() as conn:
