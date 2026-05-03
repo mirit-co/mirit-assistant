@@ -7,7 +7,7 @@ from telegram.ext import Application, CommandHandler, ContextTypes
 import config
 from bot.handlers.common import MAIN_MENU_TEXT, main_menu_keyboard
 from bot.handlers.lists import build_handler as lists_handler
-from bot.handlers.knowledge import build_handler as knowledge_handler
+from bot.handlers.docs import build_handler as docs_handler
 from storage.db import init_db
 
 logging.basicConfig(level=logging.INFO)
@@ -33,7 +33,7 @@ async def handle_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def post_init(app: Application) -> None:
     await app.bot.set_my_commands([
         BotCommand("lists", "Управление списками"),
-        BotCommand("knowledge", "База знаний"),
+        BotCommand("docs", "Документы и фото"),
     ])
 
 
@@ -43,7 +43,7 @@ def main():
 
     app.add_handler(CommandHandler("start", handle_start))
     app.add_handler(lists_handler())
-    app.add_handler(knowledge_handler())
+    app.add_handler(docs_handler())
     app.add_error_handler(error_handler)
 
     logger.info("Starting polling...")

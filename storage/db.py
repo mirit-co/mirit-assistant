@@ -39,11 +39,12 @@ def init_db():
                 FOREIGN KEY (user_id) REFERENCES users(id)
             );
 
-            CREATE TABLE IF NOT EXISTS notes (
+            CREATE TABLE IF NOT EXISTS docs (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
                 title TEXT,
-                content TEXT NOT NULL,
+                file_id TEXT NOT NULL,
+                file_type TEXT NOT NULL,
                 tags TEXT DEFAULT '',
                 created_at TEXT DEFAULT (datetime('now')),
                 FOREIGN KEY (user_id) REFERENCES users(id)

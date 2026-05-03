@@ -268,7 +268,7 @@ async def receive_item_text(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     command.execute("add", {"list_name": list_name, "item": text}, uid)
     kb = _items_keyboard(uid, list_name)
     await update.message.reply_text(
-        f"✅ Добавил «{text}»\n\n📋 *{list_name}*", parse_mode="Markdown", reply_markup=kb
+        f"✅ Добавил «{text}»\n\n📋 {list_name}", reply_markup=kb
     )
     return VIEW_ITEMS
 

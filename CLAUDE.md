@@ -11,32 +11,34 @@ config.py                 — env vars (TELEGRAM_BOT_TOKEN, ANTHROPIC_API_KEY, A
 bot/
   handlers/               — ConversationHandlers (Telegram UI, кнопки и состояния)
     lists.py              — /lists сценарий
-    knowledge.py          — /knowledge сценарий
+    docs.py               — /docs сценарий
   commands/               — бизнес-логика (чтение/запись DB)
     lists.py              — операции со списками
-    knowledge.py          — операции с заметками
+    docs.py               — операции с документами
 
 storage/db.py             — SQLite helpers, init_db()
 
 .claude/skills/           — Claude Code skills (формат Agent Skills) для прямого доступа к DB
   lists/SKILL.md          — /lists
-  knowledge/SKILL.md      — /knowledge
 ```
 
 ## Key rules
 
 **Навигация через кнопки** — InlineKeyboardMarkup для всех меню. Пользователь вводит текст только когда бот явно спрашивает.
 
-**ConversationHandler** — каждый раздел (`/lists`, `/knowledge`) — отдельный ConversationHandler со своими состояниями.
+**ConversationHandler** — каждый раздел (`/lists`, `/docs`) — отдельный ConversationHandler со своими состояниями.
 
 **API не используется** в текущих сценариях. Весь поиск и навигация — через SQLite.
+
+**Тесты обязательны** — при добавлении нового функционала всегда добавлять E2E тесты в `tests/`.
 
 ## DB schema
 
 ```sql
 users       — telegram_id, username
 lists       — user_id, list_name, item, done
-notes       — user_id, title, content, tags, created_at
+list_meta   — user_id, list_name, is_shared
+docs        — user_id, title, file_id, file_type, tags, created_at
 ```
 
 SQLite файл живёт **на дроплете**: `~/assistant/data/assistant.db`.
@@ -48,7 +50,8 @@ SQLite файл живёт **на дроплете**: `~/assistant/data/assistan
 2. Создать `bot/handlers/myflow.py` — ConversationHandler (Telegram UI)
 3. Зарегистрировать хендлер в `main.py`
 4. Если нужны новые DB-таблицы — добавить в `storage/db.py → init_db()`
-5. Опционально: добавить `.claude/skills/myflow/SKILL.md` для доступа из Claude Code
+5. Добавить E2E тесты в `tests/test_myflow.py` (обязательно)
+6. Опционально: добавить `.claude/skills/myflow/SKILL.md` для доступа из Claude Code
 
 ## Run locally
 
@@ -76,6 +79,9 @@ venv/bin/pip install -r requirements.txt
 
 # 3. Запускай тест-бота:
 venv/bin/python main.py
+
+# 4. После тестов — останови бота (обязательно перед деплоем):
+pkill -f "venv/bin/python main.py"
 ```
 
 Рабочий процесс: **тест-бот локально → убедился → git push → деплой на дроплет**.
@@ -114,6 +120,6 @@ ssh -i ~/.ssh/kartuli_bot_deploy root@165.232.116.241 "cd ~/assistant && docker 
 
 ## Claude Code skills
 
-Используй `/lists` и `/knowledge` для работы с базой данных напрямую через SQLite.
+Используй `/lists` для работы с базой данных напрямую через SQLite.
 Скиллы описаны в `.claude/skills/<name>/SKILL.md` (формат Agent Skills).
 Claude может вызывать их автоматически по совпадению с `description`.
