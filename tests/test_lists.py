@@ -42,12 +42,12 @@ def test_add_item_appears_in_list(tg_client, bot_username):
 def test_toggle_item_done(tg_client, bot_username):
     msg = _open_test_list(tg_client, bot_username)
     labels_before = get_button_labels(msg)
-    alpha_label = next(l for l in labels_before if "item_alpha" in l)
+    alpha_label = next(lbl for lbl in labels_before if "item_alpha" in lbl)
     assert alpha_label.startswith("⚪"), "Expected item_alpha to be not done initially"
 
     msg = run(click_and_wait(tg_client, bot_username, msg, "item_alpha"))
     labels_after = get_button_labels(msg)
-    alpha_label_after = next(l for l in labels_after if "item_alpha" in l)
+    alpha_label_after = next(lbl for lbl in labels_after if "item_alpha" in lbl)
     assert alpha_label_after.startswith("🟢")
 
 
@@ -56,7 +56,7 @@ def test_toggle_item_back_to_undone(tg_client, bot_username):
     msg = run(click_and_wait(tg_client, bot_username, msg, "item_alpha"))
     msg = run(click_and_wait(tg_client, bot_username, msg, "item_alpha"))
     labels = get_button_labels(msg)
-    alpha_label = next(l for l in labels if "item_alpha" in l)
+    alpha_label = next(lbl for lbl in labels if "item_alpha" in lbl)
     assert alpha_label.startswith("⚪")
 
 
@@ -66,12 +66,12 @@ def test_reset_all_marks_items_undone(tg_client, bot_username):
     msg = run(click_and_wait(tg_client, bot_username, msg, "item_beta"))
 
     labels_before = get_button_labels(msg)
-    assert any("🟢" in l and "item_alpha" in l for l in labels_before)
-    assert any("🟢" in l and "item_beta" in l for l in labels_before)
+    assert any("🟢" in lbl and "item_alpha" in lbl for lbl in labels_before)
+    assert any("🟢" in lbl and "item_beta" in lbl for lbl in labels_before)
 
     msg = run(click_and_wait(tg_client, bot_username, msg, "🔄 Сбросить"))
     labels_after = get_button_labels(msg)
-    assert all("🟢" not in l for l in labels_after if "item_" in l)
+    assert all("🟢" not in lbl for lbl in labels_after if "item_" in lbl)
 
 
 def test_edit_mode_shows_delete_buttons(tg_client, bot_username):
@@ -105,12 +105,12 @@ def test_delete_item_removes_it(tg_client, bot_username):
 def test_visibility_toggle(tg_client, bot_username):
     msg = _open_test_list(tg_client, bot_username)
     labels = get_button_labels(msg)
-    vis_label = next(l for l in labels if "Приватный" in l or "Общий" in l)
+    vis_label = next(lbl for lbl in labels if "Приватный" in lbl or "Общий" in lbl)
     is_private = "Приватный" in vis_label
 
     msg = run(click_and_wait(tg_client, bot_username, msg, vis_label))
     labels_after = get_button_labels(msg)
-    new_vis_label = next(l for l in labels_after if "Приватный" in l or "Общий" in l)
+    new_vis_label = next(lbl for lbl in labels_after if "Приватный" in lbl or "Общий" in lbl)
     assert ("Общий" in new_vis_label) == is_private
 
     run(click_and_wait(tg_client, bot_username, msg, new_vis_label))
