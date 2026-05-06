@@ -1,11 +1,16 @@
 {
   "mcpServers": {
     "assistant": {
-      "command": "python",
-      "args": ["/Users/rsalakhiev/Desktop/mirit-assistant/mcp_server.py"],
+      "command": "/Users/rsalakhiev/Desktop/mirit-assistant/venv/bin/python3",
+      "args": [
+        "/Users/rsalakhiev/Desktop/mirit-assistant/mcp_server.py"
+      ],
       "env": {
         "DB_PATH": "/Users/rsalakhiev/Desktop/mirit-assistant/data/assistant.db"
       }
     }
+  },
+  "enabledPlugins": {
+    "skill-creator@claude-plugins-official": true
   }
 }

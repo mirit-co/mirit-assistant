@@ -12,21 +12,28 @@ bot/
   handlers/               — ConversationHandlers (Telegram UI, кнопки и состояния)
     lists.py              — /lists сценарий
     docs.py               — /docs сценарий
+    capsule.py            — /capsule сценарий
   commands/               — бизнес-логика (чтение/запись DB)
     lists.py              — операции со списками
     docs.py               — операции с документами
+    capsule.py            — работа с капсульным гардеробом (JSON + DB)
 
 storage/db.py             — SQLite helpers, init_db()
 
-.claude/skills/           — Claude Code skills (формат Agent Skills) для прямого доступа к DB
+data/capsule/             — недельные капсулы в формате JSON (YYYY-Www.json)
+wardrobe/                 — инвентарь и профиль гардероба (inventory.json, preferences.json)
+
+.claude/skills/           — Claude Code skills (формат Agent Skills)
   lists/SKILL.md          — /lists
+  wardrobe-capsule/       — генерация капсульного гардероба из фото
+  run-tests/              — запуск E2E тестов
 ```
 
 ## Key rules
 
 **Навигация через кнопки** — InlineKeyboardMarkup для всех меню. Пользователь вводит текст только когда бот явно спрашивает.
 
-**ConversationHandler** — каждый раздел (`/lists`, `/docs`) — отдельный ConversationHandler со своими состояниями.
+**ConversationHandler** — каждый раздел (`/lists`, `/docs`, `/capsule`) — отдельный ConversationHandler со своими состояниями.
 
 **API не используется** в текущих сценариях. Весь поиск и навигация — через SQLite.
 
@@ -35,10 +42,11 @@ storage/db.py             — SQLite helpers, init_db()
 ## DB schema
 
 ```sql
-users       — telegram_id, username
-lists       — user_id, list_name, item, done
-list_meta   — user_id, list_name, is_shared
-docs        — user_id, title, file_id, file_type, tags, created_at
+users               — telegram_id, username
+lists               — user_id, list_name, item, done
+list_meta           — user_id, list_name, is_shared
+docs                — user_id, title, file_id, file_type, tags, created_at
+capsule_checklist   — user_id, week, item_id, done  (чеклист капсулы)
 ```
 
 SQLite файл живёт **на дроплете**: `~/assistant/data/assistant.db`.
@@ -120,6 +128,9 @@ ssh -i ~/.ssh/kartuli_bot_deploy root@165.232.116.241 "cd ~/assistant && docker 
 
 ## Claude Code skills
 
-Используй `/lists` для работы с базой данных напрямую через SQLite.
 Скиллы описаны в `.claude/skills/<name>/SKILL.md` (формат Agent Skills).
 Claude может вызывать их автоматически по совпадению с `description`.
+
+- `/lists` — операции с базой данных списков через SQLite
+- `/wardrobe-capsule` — инвентаризация одежды из фото, анализ гардероба, генерация недельной капсулы
+- `/run-tests` — запуск E2E тестов через Telethon

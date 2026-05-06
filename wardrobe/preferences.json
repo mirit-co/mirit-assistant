@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "updated_at": "2026-05-05T10:30:00Z",
+  "lifestyle_pie": {
+    "work_in_office": 0.00,
+    "work_from_home": 0.40,
+    "casual": 0.30,
+    "exercise": 0.00,
+    "social": 0.05,
+    "formal": 0.00,
+    "lounge": 0.25
+  },
+  "style_words": {
+    "realistic": "практично",
+    "aspirational": "со вкусом",
+    "emotional": "расслаблено"
+  },
+  "palette": {
+    "neutrals": ["black", "navy", "charcoal", "mid_grey"],
+    "mains": ["burgundy", "forest_green", "olive"],
+    "accents": ["orange", "purple"],
+    "actual_top5": ["black", "navy", "burgundy", "mid_grey", "olive"],
+    "notes": "смуглая кожа + тёмные волосы — глубокие цвета работают хорошо, яркие акценты тоже"
+  },
+  "climate": {
+    "city": "Tbilisi",
+    "zone": "humid_continental",
+    "summer_high_c": 34,
+    "summer_low_c": 20,
+    "winter_high_c": 8,
+    "winter_low_c": 0,
+    "indoor_outdoor_split": 0.7
+  },
+  "constraints": {
+    "laundry_frequency_days": 3,
+    "laundry_note": "2 раза в неделю на семью из 3 — личные вещи стираются часто",
+    "body_shape": null,
+    "fit_notes": "предпочитает практичное и расслабленное, не любит прикладывать усилия к одеванию",
+    "budget_monthly_usd": null
+  },
+  "pain_points": [
+    "лень одеваться — нужны образы которые работают без усилий",
+    "жена хочет чтобы выглядел хорошо в обычные дни"
+  ],
+  "favorite_items": [],
+  "social_context": {
+    "formal_occasions": "1-2 раза в месяц, рубашка + брюки",
+    "daily_context": "WFH + один выход на улицу в день",
+    "key_audience": "жена — важна аккуратность в повседневных выходах"
+  }
+}

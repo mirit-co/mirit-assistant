@@ -49,6 +49,15 @@ def init_db():
                 created_at TEXT DEFAULT (datetime('now')),
                 FOREIGN KEY (user_id) REFERENCES users(id)
             );
+
+            CREATE TABLE IF NOT EXISTS capsule_checklist (
+                user_id  INTEGER NOT NULL,
+                week     TEXT    NOT NULL,
+                item_id  TEXT    NOT NULL,
+                done     INTEGER DEFAULT 0,
+                PRIMARY KEY (user_id, week, item_id),
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            );
         """)
 
 
