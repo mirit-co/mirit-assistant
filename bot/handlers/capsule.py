@@ -133,8 +133,8 @@ async def on_reset(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 async def on_overview(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     query = update.callback_query
     await query.answer()
-    capsule = context.user_data.get("capsule_data") or load_current_capsule()
-    inventory = context.user_data.get("capsule_inventory") or load_inventory()
+    capsule = load_current_capsule()
+    inventory = load_inventory()
     text = format_weekly_overview(capsule, inventory)
     await query.edit_message_text(text, reply_markup=_overview_keyboard(), parse_mode="HTML")
     return VIEW_OVERVIEW
