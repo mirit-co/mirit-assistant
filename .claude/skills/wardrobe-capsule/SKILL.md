@@ -288,9 +288,11 @@ let them choose what to act on.
 
 ### Step-by-step
 
-1. **Get the weather.** If the user hasn't given it, ask for their city or
-   confirm the one in their preferences, then look up the 7-day forecast
-   (high/low, precipitation, wind). Note temperature range across the week —
+1. **Get the weather.** Always use the `mcp__open-meteo__get_weather` MCP tool —
+   pass the user's city (read from `preferences.json → city` field, or ask if not
+   set). Never hardcode weather data or ask the user to provide forecasts manually.
+   The tool returns current conditions + 7-day forecast; extract `high_c`, `low_c`,
+   and precipitation for each day. Note temperature range across the week —
    this drives the layering plan.
 
 2. **Get the activity plan.** Either pull from a stated calendar
