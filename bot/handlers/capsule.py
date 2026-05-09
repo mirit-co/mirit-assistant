@@ -60,9 +60,12 @@ def _overview_keyboard() -> InlineKeyboardMarkup:
     ])
 
 
-def _load_and_store(context: ContextTypes.DEFAULT_TYPE) -> dict:
-    capsule = load_current_capsule()
-    inventory = load_inventory()
+def _load_and_store(context: ContextTypes.DEFAULT_TYPE) -> dict | None:
+    tg_id = context.user_data.get("telegram_id", 0)
+    capsule = load_current_capsule(tg_id)
+    if capsule is None:
+        return None
+    inventory = load_inventory(tg_id)
     context.user_data["capsule_week"] = capsule["week"]
     context.user_data["capsule_dates"] = capsule_date_range(capsule)
     context.user_data["capsule_pool"] = get_pool_items(capsule, inventory)
@@ -72,7 +75,11 @@ def _load_and_store(context: ContextTypes.DEFAULT_TYPE) -> dict:
 
 
 async def cmd_capsule(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    context.user_data["telegram_id"] = update.effective_user.id
     capsule = _load_and_store(context)
+    if capsule is None:
+        await update.message.reply_text("Капсула ещё не готова 🙈")
+        return ConversationHandler.END
     dates = context.user_data["capsule_dates"]
     await update.message.reply_text(
         f"👕 Капсула — {dates}",
@@ -84,7 +91,11 @@ async def cmd_capsule(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
 async def cmd_capsule_cb(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     query = update.callback_query
     await query.answer()
+    context.user_data["telegram_id"] = update.effective_user.id
     capsule = _load_and_store(context)
+    if capsule is None:
+        await query.edit_message_text("Капсула ещё не готова 🙈")
+        return ConversationHandler.END
     dates = context.user_data["capsule_dates"]
     await query.edit_message_text(
         f"👕 Капсула — {dates}",
@@ -133,8 +144,12 @@ async def on_reset(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 async def on_overview(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     query = update.callback_query
     await query.answer()
-    capsule = load_current_capsule()
-    inventory = load_inventory()
+    tg_id = context.user_data.get("telegram_id", 0)
+    capsule = load_current_capsule(tg_id)
+    if capsule is None:
+        await query.edit_message_text("Капсула ещё не готова 🙈")
+        return ConversationHandler.END
+    inventory = load_inventory(tg_id)
     text = format_weekly_overview(capsule, inventory)
     await query.edit_message_text(text, reply_markup=_overview_keyboard(), parse_mode="HTML")
     return VIEW_OVERVIEW

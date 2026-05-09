@@ -4,8 +4,23 @@ from pathlib import Path
 from storage.db import get_conn
 
 _BASE = Path(__file__).parent.parent.parent
-CAPSULE_DIR = _BASE / "data" / "capsule"
-INVENTORY_PATH = _BASE / "wardrobe" / "inventory.json"
+
+
+def _user_slug(telegram_id: int) -> str:
+    from config import RUSLAN_TELEGRAM_ID, MARIANA_TELEGRAM_ID
+    if telegram_id and telegram_id == RUSLAN_TELEGRAM_ID:
+        return "Ruslan"
+    if telegram_id and telegram_id == MARIANA_TELEGRAM_ID:
+        return "Mariana"
+    return str(telegram_id)
+
+
+def _capsule_dir(telegram_id: int) -> Path:
+    return _BASE / "data" / "capsule" / _user_slug(telegram_id)
+
+
+def _inventory_path(telegram_id: int) -> Path:
+    return _BASE / "wardrobe" / _user_slug(telegram_id) / "inventory.json"
 
 # Colors: (neut, fem, masc, plur). "n" for indeclinable (Navy).
 _COLORS: dict = {
@@ -114,16 +129,20 @@ def capsule_date_range(capsule: dict) -> str:
     return f"{first} – {last}"
 
 
-def load_current_capsule() -> dict:
-    files = sorted(CAPSULE_DIR.glob("*.json"), reverse=True)
+def load_current_capsule(telegram_id: int) -> dict | None:
+    d = _capsule_dir(telegram_id)
+    files = sorted(d.glob("*.json"), reverse=True)
     if not files:
-        raise FileNotFoundError(f"No capsule files found in {CAPSULE_DIR}")
+        return None
     return json.loads(files[0].read_text(encoding="utf-8"))
 
 
-def load_inventory() -> dict:
-    data = json.loads(INVENTORY_PATH.read_text(encoding="utf-8"))
-    return {item["id"]: item for item in data["items"]}
+def load_inventory(telegram_id: int) -> dict:
+    path = _inventory_path(telegram_id)
+    if not path.exists():
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return {item["id"]: item for item in data.get("items", [])}
 
 
 def item_label(item: dict) -> str:

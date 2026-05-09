@@ -31,14 +31,23 @@ clear (see `references/methodologies.md`).
 
 ## Working Files
 
+All wardrobe files are **per-user** — use the appropriate subfolder based on
+who you're working with. Current users: `Ruslan`, `Mariana`.
+
 ```
 wardrobe/
-├── inventory.json         # canonical item list (Phase 1)
-├── preferences.json       # lifestyle + style profile (Phase 2)
-└── scoring.json           # per-item versatility scores (Phase 3)
+└── <user>/
+    ├── inventory.json         # canonical item list (Phase 1)
+    ├── preferences.json       # lifestyle + style profile (Phase 2)
+    └── scoring.json           # per-item versatility scores (Phase 3)
 
 data/capsule/
-└── YYYY-Www.json          # weekly capsule pool (Phase 4), e.g. 2026-W19.json
+└── <user>/
+    └── YYYY-Www.json          # weekly capsule pool (Phase 4), e.g. 2026-W19.json
+
+data/capsula_photos/
+└── <user>/
+    └── IMG_XXXX.png           # source photos for inventory
 ```
 
 JSON schemas for each file are in `schemas.md` (same directory as this file).
@@ -48,11 +57,13 @@ stable across sessions — later phases assume earlier phases used the canonical
 ## Photo URLs
 
 Each inventory item has a `photo_url` field pointing to its source photo in
-Google Cloud Storage:
+Google Cloud Storage. URLs are per-user:
 
 ```
-https://storage.cloud.google.com/rstestbucketname/capsule/{IMG_XXXX}.png
+https://storage.googleapis.com/rstestbucketname/capsule/<user>/{IMG_XXXX}.png
 ```
+
+Example: `https://storage.googleapis.com/rstestbucketname/capsule/Mariana/IMG_6001.png`
 
 When adding new items from photos, extract the filename (e.g. `IMG_5758`) from
 the photo metadata or file name and set `photo_url` accordingly. The `notes`
@@ -60,6 +71,29 @@ field should also record it: `"from photo IMG_5758 — description"`.
 
 When presenting items to the user (outfit suggestions, checklist, inventory
 review), you can include the photo_url so they can tap to see the item.
+
+### Uploading new photos to GCS
+
+Before building inventory from new photos, upload them to GCS with 100×100 resize:
+
+```bash
+python scripts/upload_capsule_photos.py <user>
+# e.g.: python scripts/upload_capsule_photos.py Mariana
+```
+
+**Prerequisites:**
+- Place the new PNG/JPG files in `data/capsula_photos/<user>/`
+- GCS account: **`salakhiev.ruslan@gmail.com`** — must be the active ADC account.
+  Switch if needed:
+  ```bash
+  gcloud config set account salakhiev.ruslan@gmail.com
+  gcloud auth application-default login --account salakhiev.ruslan@gmail.com
+  ```
+- `GCS_BUCKET` env var (defaults to `rstestbucketname`)
+
+The script resizes each photo to 100×100 (aspect-ratio-preserving, white-padded
+to square), uploads to `capsule/<user>/<filename>.png`, and prints the public
+URL for each file. Use these URLs as `photo_url` values in `inventory.json`.
 
 ## Phase 1 — Inventory
 
@@ -365,12 +399,20 @@ Mon-Wed WFH, Thu in-office + dinner, Fri casual day, Sat-Sun social
 Save the plan to `data/capsule/{ISO-week}.json`.
 
 8. **Deploy to droplet.** After saving the JSON locally, copy it to the
-   production server so the Telegram bot can serve it immediately:
+   production server so the Telegram bot can serve it immediately.
+   The capsule file must go into the per-user subdirectory on the droplet:
 
    ```bash
    scp -i ~/.ssh/kartuli_bot_deploy \
-     data/capsule/{ISO-week}.json \
-     root@165.232.116.241:~/assistant/data/capsule/
+     data/capsule/<user>/{ISO-week}.json \
+     root@165.232.116.241:~/assistant/data/capsule/<user>/
+   ```
+
+   Example for Mariana week 20:
+   ```bash
+   scp -i ~/.ssh/kartuli_bot_deploy \
+     data/capsule/Mariana/2026-W20.json \
+     root@165.232.116.241:~/assistant/data/capsule/Mariana/
    ```
 
    Confirm success (`scp` exits 0) and tell the user the capsule is live.
