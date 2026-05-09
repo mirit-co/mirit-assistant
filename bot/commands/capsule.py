@@ -7,10 +7,10 @@ _BASE = Path(__file__).parent.parent.parent
 
 
 def _user_slug(telegram_id: int) -> str:
-    from config import RUSLAN_TELEGRAM_ID, MARIANA_TELEGRAM_ID
-    if telegram_id and telegram_id == RUSLAN_TELEGRAM_ID:
+    from config import RUSLAN_TELEGRAM_IDS, MARIANA_TELEGRAM_IDS
+    if telegram_id and telegram_id in RUSLAN_TELEGRAM_IDS:
         return "Ruslan"
-    if telegram_id and telegram_id == MARIANA_TELEGRAM_ID:
+    if telegram_id and telegram_id in MARIANA_TELEGRAM_IDS:
         return "Mariana"
     return str(telegram_id)
 
