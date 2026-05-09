@@ -1,1 +1,43 @@
-{}
+{
+  "version": 1,
+  "updated_at": "2026-05-09T12:00:00Z",
+  "lifestyle_pie": {
+    "work_in_office": 0.0,
+    "work_from_home": 0.55,
+    "casual": 0.25,
+    "exercise": 0.05,
+    "social": 0.10,
+    "formal": 0.0,
+    "lounge": 0.05
+  },
+  "style_words": {
+    "realistic": "comfortable",
+    "aspirational": "eclectic",
+    "emotional": "expressive"
+  },
+  "style_notes": "Любит яркие акценты, сочетать несочетаемое, смарт-кэжуал + бохо. Образы должны быть интересными, не скучными.",
+  "palette": {
+    "neutrals": ["white", "cream", "grey"],
+    "mains": ["brown", "blue", "dusty_rose"],
+    "accents": ["orange", "magenta", "rust", "teal"],
+    "target_distribution": {"neutrals": 0.40, "mains": 0.35, "accents": 0.25}
+  },
+  "climate": {
+    "city": "Tbilisi",
+    "zone": "humid_continental",
+    "summer_high_c": 34,
+    "summer_low_c": 20,
+    "winter_high_c": 8,
+    "winter_low_c": -2,
+    "indoor_outdoor_split": 0.75
+  },
+  "constraints": {
+    "laundry_frequency_days": 7,
+    "body_shape": null,
+    "fit_notes": null,
+    "budget_monthly_usd": null
+  },
+  "routine_notes": "Утром везёт ребёнка в школу, после обеда забирает — нужно выглядеть хорошо при выходе, но комфортно дома.",
+  "pain_points": [],
+  "favorite_items": []
+}

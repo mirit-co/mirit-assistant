@@ -220,13 +220,13 @@ def format_weekly_overview(capsule: dict, inventory: dict) -> str:
             lbl = item_label(inv) if inv else iid
             url = inv.get("photo_url") if inv else None
             item_labels.append(f'<a href="{url}">{lbl}</a>' if url else lbl)
-        rationale = anchor.get("rationale", "")
+        caption = anchor.get("caption") or anchor.get("rationale", "")
 
         header = f"<b>{day_ru}, {date_label}</b> — {temp_str}" if date_label else f"<b>{day_ru}</b> — {temp_str}"
         lines.append(header)
         lines.append(" · ".join(item_labels))
-        if rationale:
-            lines.append(f"<i>{rationale}</i>")
+        if caption:
+            lines.append(f"<i>{caption}</i>")
         lines.append("")
 
     return "\n".join(lines).strip()

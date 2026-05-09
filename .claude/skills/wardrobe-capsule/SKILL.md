@@ -60,10 +60,10 @@ Each inventory item has a `photo_url` field pointing to its source photo in
 Google Cloud Storage. URLs are per-user:
 
 ```
-https://storage.googleapis.com/rstestbucketname/capsule/<user>/{IMG_XXXX}.png
+https://storage.cloud.google.com/rstestbucketname/capsule/<user>/{IMG_XXXX}.png
 ```
 
-Example: `https://storage.googleapis.com/rstestbucketname/capsule/Mariana/IMG_6001.png`
+Example: `https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/IMG_6001.png`
 
 When adding new items from photos, extract the filename (e.g. `IMG_5758`) from
 the photo metadata or file name and set `photo_url` accordingly. The `notes`
@@ -394,6 +394,35 @@ Mon-Wed WFH, Thu in-office + dinner, Fri casual day, Sat-Sun social
 - Wash tops Wed evening (3 worn next-to-skin)
 - Jeans (btm-001) worn 4× — can stretch to next Mon, then wash
 - Blazer/cardigan: no wash needed this week
+```
+
+### Daily anchor JSON fields
+
+Each entry in `daily_anchors` must have:
+
+```json
+{
+  "day": "Mon",
+  "formula": "...",
+  "items": ["top-007", "btm-001", "lay-006", "shoe-001"],
+  "color_story": "голубой + светлый деним + кремовый жилет",
+  "caption": "Ажур + полоска = интересный контраст. Деним даёт непринуждённость.",
+  "photo_urls": { "top-007": "https://...", ... }
+}
+```
+
+**`caption`** — одна короткая фраза (1–2 предложения) о настроении/логике образа.
+НЕ перечислять одежду — она уже показана ссылками выше. Писать только то, что
+добавляет смысл: погодный контекст, стилевой приём, совет по носке.
+
+Хорошо: `"Гроза — день дома. Яркий образ для комфортного дня + выход в школу."`
+Плохо: `"Малиновая рубашка + серая юбка + жилет = яркий образ."` ← дублирует список вещей.
+
+**Telegram-рендер одного дня** выглядит так:
+```
+Пятница, 15 мая — ⛈ 21°C
+Малиновая рубашка · Серая джинсовая юбка · Бохо-жилет · Белые кеды
+Гроза — день дома. Яркий образ для комфортного дня + выход в школу.
 ```
 
 Save the plan to `data/capsule/{ISO-week}.json`.
