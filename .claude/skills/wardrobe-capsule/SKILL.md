@@ -54,31 +54,78 @@ JSON schemas for each file are in `schemas.md` (same directory as this file).
 Read it before writing any of these files for the first time. Keep field names
 stable across sessions — later phases assume earlier phases used the canonical names.
 
+## Photo naming — STRICT RULES
+
+### Filename format after recognition
+
+After recognising a clothing item, **rename** the source file before uploading:
+
+```
+{item_id}-{short_description}_{user_slug}.png
+```
+
+- `item_id` — the canonical ID from inventory.json (e.g. `top-004`, `btm-001`)
+- `short_description` — 1–3 lowercase English words joined by `_`, describing
+  color + garment type (e.g. `brown_sweater`, `light_denim_shorts`, `cream_vest`)
+- `user_slug` — lowercase user name (`mariana`, `ruslan`)
+
+**Examples:**
+```
+top-004-brown_sweater_mariana.png
+btm-001-light_denim_jeans_mariana.png
+shoe-001-white_sneakers_mariana.png
+acc-016-straw_hat_mariana.png
+```
+
+Update `photo_url` in inventory.json to the new filename accordingly.
+
+### Recognition confidence — NO GUESSING
+
+**Do NOT invent attributes you cannot see clearly.**
+
+- If a photo is ambiguous or low-quality and the item cannot be identified
+  confidently: **show the user a numbered list of hypotheses** (max 3–4 options)
+  and ask "Это правильно? Выбери номер или поправь."
+- Only commit the item to inventory.json **after user confirms**.
+- If multiple items are visible in one photo, describe each separately and
+  ask the user to confirm each one.
+- Mark any unconfirmed attributes with `"confidence": "low"` in the JSON.
+
+### Duplicate photos — DELETE them
+
+After building inventory, some source photos may be duplicates (alternate angles
+of the same item already catalogued, or intentional retakes). **Delete duplicates**
+from `data/capsula_photos/<user>/` — do not keep them renamed or unnamed.
+
+Rule: one item → one photo file. If a better photo arrives, replace the existing
+file (rename + re-upload), delete the old one from GCS and locally.
+
 ## Photo URLs
 
 Each inventory item has a `photo_url` field pointing to its source photo in
 Google Cloud Storage. URLs are per-user:
 
 ```
-https://storage.cloud.google.com/rstestbucketname/capsule/<user>/{IMG_XXXX}.png
+https://storage.cloud.google.com/rstestbucketname/capsule/<user>/{renamed_filename}.png
 ```
 
-Example: `https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/IMG_6001.png`
+Example: `https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/top-007-blue_crochet_crop_mariana.png`
 
-When adding new items from photos, extract the filename (e.g. `IMG_5758`) from
-the photo metadata or file name and set `photo_url` accordingly. The `notes`
-field should also record it: `"from photo IMG_5758 — description"`.
+When adding new items from photos, rename the file to the canonical format
+(see "Photo naming" above) and set `photo_url` to the new name. The `notes`
+field should record the original filename: `"from photo IMG_5758 — description"`.
 
 When presenting items to the user (outfit suggestions, checklist, inventory
-review), you can include the photo_url so they can tap to see the item.
+review), include the photo_url so they can tap to see the item.
 
 ### Uploading new photos to GCS
 
-Before building inventory from new photos, upload them to GCS with 100×100 resize:
+Before building inventory from new photos, upload them to GCS with **200×200** resize:
 
 ```bash
 python scripts/upload_capsule_photos.py <user>
 # e.g.: python scripts/upload_capsule_photos.py Mariana
+# Resizes to 200×200, uploads renamed files (see "Photo naming" above)
 ```
 
 **Prerequisites:**

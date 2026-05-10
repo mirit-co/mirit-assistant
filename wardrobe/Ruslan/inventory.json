@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-05-05T10:00:00Z",
-  "updated_at": "2026-05-05T10:00:00Z",
+  "updated_at": "2026-05-09T19:00:00Z",
   "items": [
     {
       "id": "btm-001",
@@ -38,7 +38,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5758 — серые джинсы с потёртостями, relaxed fit",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5758.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5758.png",
+      "photo_id": "IMG_5758",
+      "photo_label": "btm-001-dark_grey_jeans_relaxed"
     },
     {
       "id": "btm-002",
@@ -74,7 +76,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5760 — оливковые шорты на резинке с завязками",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5760.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5760.png",
+      "photo_id": "IMG_5760",
+      "photo_label": "btm-002-olive_shorts"
     },
     {
       "id": "top-001",
@@ -110,7 +114,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5761 — фиолетовая футболка Superdry",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5761.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5761.png",
+      "photo_id": "IMG_5761",
+      "photo_label": "top-001-purple_tee"
     },
     {
       "id": "btm-003",
@@ -146,7 +152,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5762 — серые шорты-джоггеры из флиса/свитшотного материала",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5762.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5762.png",
+      "photo_id": "IMG_5762",
+      "photo_label": "btm-003-light_grey_shorts"
     },
     {
       "id": "top-002",
@@ -183,7 +191,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5763 — тёмно-синий свитшот Superdry crew neck",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5763.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5763.png",
+      "photo_id": "IMG_5763",
+      "photo_label": "top-002-navy_sweatshirt"
     },
     {
       "id": "btm-004",
@@ -220,7 +230,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5764 — чёрные карго-джоггеры на резинке с карманами",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5764.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5764.png",
+      "photo_id": "IMG_5764",
+      "photo_label": "btm-004-black_joggers"
     },
     {
       "id": "top-003",
@@ -257,7 +269,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5765 — синий вязаный пуловер Lee, текстурная вязка",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5765.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5765.png",
+      "photo_id": "IMG_5765",
+      "photo_label": "top-003-navy_sweater_pullover"
     },
     {
       "id": "lay-001",
@@ -294,7 +308,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5766 — тёмно-зелёная худи на молнии Superdry",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5766.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5766.png",
+      "photo_id": "IMG_5766",
+      "photo_label": "lay-001-forest_green_light_jacket"
     },
     {
       "id": "btm-005",
@@ -331,43 +347,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5767 — бежевые чинос, немного мятые",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5767.png"
-    },
-    {
-      "id": "btm-006",
-      "category": "bottom",
-      "subcategory": "joggers",
-      "color_primary": "forest_green",
-      "color_secondary": null,
-      "pattern": "solid",
-      "pattern_scale": null,
-      "material_guess": "synthetic_blend",
-      "fabric_weight": "heavyweight",
-      "fit": "relaxed",
-      "silhouette": "relaxed",
-      "formality": 1,
-      "season": [
-        "fall",
-        "winter"
-      ],
-      "layering_position": "n/a",
-      "neckline": "n/a",
-      "sleeve_length": "n/a",
-      "rise": "mid",
-      "length": "regular",
-      "condition": "excellent",
-      "style_tags": [
-        "sporty",
-        "athletic"
-      ],
-      "wear_cycle_days": 3,
-      "excluded_from_capsule": true,
-      "confidence": {
-        "material": "high",
-        "fit": "high"
-      },
-      "notes": "from photo IMG_5768 — тёмно-зелёные спортивные штаны Nike Tech fleece стиль, технические панели. excluded_from_capsule: скорее спорт/лаунж",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5768.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5767.png",
+      "photo_id": "IMG_5767",
+      "photo_label": "btm-005-beige_chinos"
     },
     {
       "id": "top-004",
@@ -404,7 +386,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5769 — фиолетовое oversized худи JJ Studios с кенгуру-карманом",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5769.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5769.png",
+      "photo_id": "IMG_5769",
+      "photo_label": "top-004-purple_hoodie"
     },
     {
       "id": "top-005",
@@ -440,7 +424,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5770 — бордовая футболка из мягкой фактурной ткани (terry/флис?), oversized",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5770.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5770.png",
+      "photo_id": "IMG_5770",
+      "photo_label": "top-005-burgundy_tee"
     },
     {
       "id": "top-006",
@@ -476,7 +462,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5771 — тёмно-синее поло с воротником",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5771.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5771.png",
+      "photo_id": "IMG_5771",
+      "photo_label": "top-006-navy_polo"
     },
     {
       "id": "top-007",
@@ -512,7 +500,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5772 — белая футболка с графическим принтом (марсоход)",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5772.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5772.png",
+      "photo_id": "IMG_5772",
+      "photo_label": "top-007-white_tee"
     },
     {
       "id": "top-008",
@@ -549,7 +539,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5773 — серая меланжевая футболка Superdry",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5773.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5773.png",
+      "photo_id": "IMG_5773",
+      "photo_label": "top-008-mid_grey_tee"
     },
     {
       "id": "top-009",
@@ -584,7 +576,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5774 — чёрная футболка с небольшим лого (флаг), relaxed fit",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5774.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5774.png",
+      "photo_id": "IMG_5774",
+      "photo_label": "top-009-black_tee"
     },
     {
       "id": "lay-002",
@@ -620,7 +614,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5775 — кимоно/хапи с принтом Большой волны Хокусая, navy/white",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5775.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5775.png",
+      "photo_id": "IMG_5775",
+      "photo_label": "lay-002-navy_kimono"
     },
     {
       "id": "top-010",
@@ -656,7 +652,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5776 — мятное поло из трикотажа/вязки, NN07 или похожий бренд",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5776.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5776.png",
+      "photo_id": "IMG_5776",
+      "photo_label": "top-010-mint_polo"
     },
     {
       "id": "top-023",
@@ -692,7 +690,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5777 — тёмно-серая/антрацитовая рубашка на кнопках, плотная ткань",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5777.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5777.png",
+      "photo_id": "IMG_5777",
+      "photo_label": "top-023-charcoal_button_down"
     },
     {
       "id": "top-011",
@@ -728,7 +728,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5778 — бежевое/кремовое поло из трикотажа NN07 (тот же тип, другой цвет)",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5778.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5778.png",
+      "photo_id": "IMG_5778",
+      "photo_label": "top-011-beige_polo"
     },
     {
       "id": "top-012",
@@ -765,7 +767,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5779 — голубая оксфордная рубашка Superdry, button-down воротник",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5779.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5779.png",
+      "photo_id": "IMG_5779",
+      "photo_label": "top-012-light_blue_button_down"
     },
     {
       "id": "top-022",
@@ -802,7 +806,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5780 — серая рубашка, mid-grey, похожа на фланель/шерсть",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5780.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5780.png",
+      "photo_id": "IMG_5780",
+      "photo_label": "top-022-mid_grey_button_down"
     },
     {
       "id": "top-013",
@@ -839,42 +845,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5781 — кремово-белая рубашка в крупную светлую клетку (оливковые/бежевые линии)",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5781.png"
-    },
-    {
-      "id": "btm-007",
-      "category": "bottom",
-      "subcategory": "joggers",
-      "color_primary": "mid_grey",
-      "color_secondary": null,
-      "pattern": "solid",
-      "pattern_scale": null,
-      "material_guess": "cotton",
-      "fabric_weight": "midweight",
-      "fit": "relaxed",
-      "silhouette": "relaxed",
-      "formality": 1,
-      "season": [
-        "all_season"
-      ],
-      "layering_position": "n/a",
-      "neckline": "n/a",
-      "sleeve_length": "n/a",
-      "rise": "mid",
-      "length": "regular",
-      "condition": "good",
-      "style_tags": [
-        "casual",
-        "lounge"
-      ],
-      "wear_cycle_days": 3,
-      "excluded_from_capsule": false,
-      "confidence": {
-        "material": "high",
-        "fit": "high"
-      },
-      "notes": "from photo IMG_5782 — серые джоггеры H&M с завязками",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5782.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5781.png",
+      "photo_id": "IMG_5781",
+      "photo_label": "top-013-cream_button_down"
     },
     {
       "id": "btm-008",
@@ -911,7 +884,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5783 — тёмно-серые/чёрные джинсы прямого кроя (два варианта на фото — чуть разные оттенки)",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5783.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5783.png",
+      "photo_id": "IMG_5783",
+      "photo_label": "btm-008-denim_dark_jeans_straight"
     },
     {
       "id": "btm-009",
@@ -946,7 +921,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5784 — чёрные джинсы slim с тактическим ремнём, Boss/похожий бренд",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5784.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5784.png",
+      "photo_id": "IMG_5784",
+      "photo_label": "btm-009-black_jeans_straight"
     },
     {
       "id": "top-014",
@@ -982,7 +959,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5785 — чёрная водолазка, трикотаж/шерстяная смесь",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5785.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5785.png",
+      "photo_id": "IMG_5785",
+      "photo_label": "top-014-black_mock_neck"
     },
     {
       "id": "top-015",
@@ -1018,43 +997,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5786 — тёмно-синяя водолазка, лёгкая трикотажная",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5786.png"
-    },
-    {
-      "id": "btm-010",
-      "category": "bottom",
-      "subcategory": "joggers",
-      "color_primary": "black",
-      "color_secondary": null,
-      "pattern": "solid",
-      "pattern_scale": null,
-      "material_guess": "synthetic_blend",
-      "fabric_weight": "heavyweight",
-      "fit": "relaxed",
-      "silhouette": "relaxed",
-      "formality": 1,
-      "season": [
-        "fall",
-        "winter"
-      ],
-      "layering_position": "n/a",
-      "neckline": "n/a",
-      "sleeve_length": "n/a",
-      "rise": "mid",
-      "length": "regular",
-      "condition": "excellent",
-      "style_tags": [
-        "sporty",
-        "athletic"
-      ],
-      "wear_cycle_days": 3,
-      "excluded_from_capsule": true,
-      "confidence": {
-        "material": "high",
-        "fit": "high"
-      },
-      "notes": "from photo IMG_5787 — чёрные спортивные штаны Nike Tech fleece стиль с техническими панелями. excluded_from_capsule: спорт/лаунж",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5787.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5786.png",
+      "photo_id": "IMG_5786",
+      "photo_label": "top-015-navy_turtleneck"
     },
     {
       "id": "top-016",
@@ -1090,7 +1035,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5788 — чёрное поло с коротким рукавом",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5788.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5788.png",
+      "photo_id": "IMG_5788",
+      "photo_label": "top-016-black_polo"
     },
     {
       "id": "top-017",
@@ -1125,7 +1072,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5789 — оливковое поло",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5789.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5789.png",
+      "photo_id": "IMG_5789",
+      "photo_label": "top-017-olive_polo"
     },
     {
       "id": "top-018",
@@ -1162,7 +1111,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5790 — ярко-оранжевая футболка NASA, oversized",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5790.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5790.png",
+      "photo_id": "IMG_5790",
+      "photo_label": "top-018-orange_tee"
     },
     {
       "id": "top-019",
@@ -1197,7 +1148,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5791 — чёрная базовая футболка, тонкая",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5791.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5791.png",
+      "photo_id": "IMG_5791",
+      "photo_label": "top-019-black_tee"
     },
     {
       "id": "top-020",
@@ -1234,7 +1187,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5792 — бордовый трикотажный топ H&M, мягкая ткань (terry/boucle?)",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5792.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5792.png",
+      "photo_id": "IMG_5792",
+      "photo_label": "top-020-burgundy_tee"
     },
     {
       "id": "top-021",
@@ -1271,7 +1226,9 @@
         "fit": "high"
       },
       "notes": "from photo IMG_5793 — фланелевая рубашка в крупную клетку navy/red/white с нашивкой, кнопочная стойка",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5793.png"
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5793.png",
+      "photo_id": "IMG_5793",
+      "photo_label": "top-021-navy_button_down"
     }
   ]
 }

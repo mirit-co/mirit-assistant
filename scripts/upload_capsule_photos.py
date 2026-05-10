@@ -25,7 +25,7 @@ from PIL import Image
 from google.cloud import storage
 
 BUCKET_NAME = os.environ.get("GCS_BUCKET", "rstestbucketname")
-THUMB_SIZE = (100, 100)
+THUMB_SIZE = (200, 200)
 _BASE = Path(__file__).parent.parent
 
 
