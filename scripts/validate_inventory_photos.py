@@ -11,7 +11,6 @@ Usage:
     Exits 0 if no ERRORs, 1 otherwise.
 """
 import json
-import re
 import sys
 from pathlib import Path
 
