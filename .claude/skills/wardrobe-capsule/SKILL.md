@@ -549,6 +549,36 @@ and `afternoon` (warm) — that share as many items as possible:
 Если разница между утром и днём <3°C — можно показать один общий вариант
 (оба объекта в JSON идентичны), и рендер сворачивается в одну строку.
 
+### Acceptance criteria для weekly overview (обязательно проверить!)
+
+После генерации капсулы и перед тем как сказать "готово", всегда прогнать
+`format_weekly_overview(capsule, inventory)` локально и проверить, что
+сообщение для каждого дня содержит:
+
+1. **Заголовок дня** — `<b>День, дата</b> — погода с эмодзи и диапазоном температур`
+2. **Строка(и) образа** — минимум одна строка с кликабельными ссылками на
+   фото вещей. Если есть `morning`/`afternoon` — две строки с префиксами
+   `🌅 утро NN°C:` и `☀️ день NN°C:`. Если варианты идентичны — одна строка
+   без префикса.
+3. **Caption** — курсивная подпись с настроением/логикой образа.
+
+**Если в выводе видны только заголовок и caption без ссылок — это баг.**
+Значит либо: (a) `daily_anchors[].items` пустой / отсутствует,
+(b) `morning.items` и `afternoon.items` не заполнены,
+(c) на проде запущен старый код, который не знает про morning/afternoon —
+проверь `git log` на дроплете и пересобери контейнер.
+
+Минимальная проверка перед сдачей работы:
+```python
+from bot.commands.capsule import format_weekly_overview
+import json
+cap = json.load(open(f'data/capsule/{user}/{week}.json'))
+inv = {it['id']: it for it in json.load(open(f'wardrobe/{user}/inventory.json'))['items']}
+out = format_weekly_overview(cap, inv)
+assert '<a href=' in out, "Render is missing photo links!"
+assert out.count('<a href=') >= 14, f"Too few links: {out.count('<a href=')}"
+```
+
 Save the plan to `data/capsule/{ISO-week}.json`.
 
 8. **Deploy to droplet.** After saving the JSON locally, copy it to the
