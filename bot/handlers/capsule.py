@@ -49,14 +49,14 @@ def _checklist_keyboard(uid: int, week: str, pool_items: list) -> InlineKeyboard
         buttons.append(row)
     buttons.append([
         InlineKeyboardButton("🔄 Сбросить", callback_data="capsule:reset"),
-        InlineKeyboardButton("← Назад", callback_data="capsule:back"),
+        InlineKeyboardButton("← Назад", callback_data="cmd:capsule"),
     ])
     return InlineKeyboardMarkup(buttons)
 
 
 def _overview_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("← Назад", callback_data="capsule:back")],
+        [InlineKeyboardButton("← Назад", callback_data="cmd:capsule")],
     ])
 
 
