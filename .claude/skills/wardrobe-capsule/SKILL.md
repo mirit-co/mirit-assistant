@@ -409,12 +409,35 @@ regardless of the per-user default.
    Note the temperature range and `delta` pattern across the week — this drives
    the layering plan AND signals which days need two distinct variants.
 
-2. **Get the activity plan.** Either pull from a stated calendar
+2. **Check the previous week's capsule for variety.** Before picking items,
+   read `data/capsule/<user>/<previous-week>.json` (e.g. for W21 → load W20).
+   Extract the set of `item_id`s used in `pool.tops`, `pool.bottoms`,
+   `pool.layers`, `pool.outerwear`, and across all `daily_anchors[].items`
+   (both `morning` and `afternoon` variants).
+
+   **Variety rule:** for the new week's pool, aim for **≤40% overlap** with
+   the previous week's pool. In practice that means:
+   - Drop at least half of the previous week's tops, bottoms, and layers
+     (unless the inventory is genuinely small — see "When inventory is too
+     small" below).
+   - Promote previously-unused / under-rotated items from inventory.
+   - Reuse a workhorse piece across weeks only when weather / activity
+     genuinely demands it (e.g. the only rain jacket during a wet week,
+     or the only warm coat in winter).
+   - **New items from recent inventory additions are highest priority** —
+     feature them prominently in daily anchors, not just the pool.
+
+   If you reuse an item from last week, vary how it's styled: pair it with a
+   different top/bottom, swap the layering piece, or move it to a different
+   day-of-week slot. Marianna and other users notice "this looks like last
+   week" — surface variety even when reusing pieces.
+
+3. **Get the activity plan.** Either pull from a stated calendar
    ("Monday client meeting, Tuesday WFH, Wednesday gym then dinner...") or
    distribute the lifestyle pie across 7 days. Tag each day with a primary
    activity bucket.
 
-3. **Pick outfit formulas per day — two variants (morning / afternoon).**
+4. **Pick outfit formulas per day — two variants (morning / afternoon).**
    Use the per-day `delta` from step 1 to decide whether the day needs two
    distinct variants or a single shared one. When two are warranted, choose
    **two** formulas from `references/outfit-formulas.md`:
@@ -432,18 +455,18 @@ regardless of the per-user default.
    alone is wearable, and the user can pick based on actual conditions that
    morning.
 
-4. **Fill the formula slots from inventory.** For each formula slot
+5. **Fill the formula slots from inventory.** For each formula slot
    (top, bottom, third piece, shoes, outer layer), pick from items that:
    - Are not already "in laundry" (see step 5)
    - Match the day's color story (one base neutral + 0–2 accents)
    - Pass the formality consistency check (all slots within ±1 level)
 
-5. **Track wear cycles.** Use the wear-cycle defaults in
+6. **Track wear cycles.** Use the wear-cycle defaults in
    `references/wear-cycles.md`. After an item is worn, it's "in laundry" for
    `wear_cycle` days. Don't reuse items inside their cycle. If laundry day
    is mid-week (e.g., Saturday), reset cycles after that.
 
-6. **Surface the pool, not a strict assignment.** The user asked for a
+7. **Surface the pool, not a strict assignment.** The user asked for a
    "pool with mix-and-match" — so present it as:
    - **Pool**: ~10–15 items the week will rotate through
    - **Daily anchor outfits**: one suggested combination per day, based on
@@ -451,7 +474,7 @@ regardless of the per-user default.
    - **Mix-and-match map**: which items pair with which (so user can
      freelance their own combinations)
 
-7. **Forecast laundry.** Tell the user which day they'll need to wash what
+8. **Forecast laundry.** Tell the user which day they'll need to wash what
    based on wear-cycle math. Example: "Wash whites Friday; jeans can stretch
    to next Tuesday."
 
@@ -581,7 +604,7 @@ assert out.count('<a href=') >= 14, f"Too few links: {out.count('<a href=')}"
 
 Save the plan to `data/capsule/{ISO-week}.json`.
 
-8. **Deploy to droplet.** After saving the JSON locally, copy it to the
+9. **Deploy to droplet.** After saving the JSON locally, copy it to the
    production server so the Telegram bot can serve it immediately.
    The capsule file must go into the per-user subdirectory on the droplet:
 

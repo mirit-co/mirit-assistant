@@ -1,7 +1,7 @@
 {
   "version": 2,
   "created_at": "2026-05-09T12:00:00Z",
-  "updated_at": "2026-05-17T10:50:00Z",
+  "updated_at": "2026-05-17T11:10:00Z",
   "profile": {
     "height_cm": 150,
     "weight_kg": 40,
@@ -1940,7 +1940,7 @@
       "photo_label": "lay-009-grey_beige_vest_knit"
     },
     {
-      "id": "lay-010",
+      "id": "lay-011",
       "category": "top",
       "subcategory": "top",
       "color_primary": "white",
@@ -1971,7 +1971,7 @@
       "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/IMG_5829.png",
       "notes": "from photo IMG_5829 — белый рёбристый жилет-кроп на пуговицах",
       "photo_id": "IMG_5829",
-      "photo_label": "lay-010-white_vest_button"
+      "photo_label": "lay-011-white_vest_button"
     },
     {
       "id": "out-001",
@@ -3260,39 +3260,6 @@
       "notes": "from photo IMG_5920 — большой шарф ржаво-горчично-чёрный, бахрома"
     },
     {
-      "id": "btm-015",
-      "category": "bottom",
-      "subcategory": "trousers",
-      "color_primary": "beige",
-      "color_secondary": null,
-      "pattern": "solid",
-      "material_guess": "linen_cotton_blend",
-      "fabric_weight": "medium",
-      "fit": "wide_leg",
-      "silhouette": "wide",
-      "formality": 3,
-      "season": [
-        "spring",
-        "summer",
-        "fall"
-      ],
-      "layering_position": null,
-      "rise": "high",
-      "length": "full",
-      "condition": "excellent",
-      "style_tags": [
-        "smart-casual",
-        "minimalist",
-        "versatile"
-      ],
-      "wear_cycle_days": 3,
-      "excluded_from_capsule": false,
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/IMG_5928.png",
-      "notes": "from photo IMG_5928 — бежевые широкие брюки с высокой посадкой, льняной хлопок",
-      "photo_id": "IMG_5928",
-      "photo_label": "btm-015-beige_trousers"
-    },
-    {
       "id": "out-018",
       "category": "outerwear",
       "subcategory": "rain_jacket",
@@ -3331,15 +3298,15 @@
       "color_primary": "red",
       "color_secondary": null,
       "pattern": "solid",
-      "material_guess": "wool_blend",
-      "fabric_weight": "medium",
+      "material_guess": "linen",
+      "fabric_weight": "lightweight",
       "fit": "a_line",
       "silhouette": "a_line",
       "formality": 2,
       "season": [
-        "fall",
-        "winter",
-        "spring"
+        "spring",
+        "summer",
+        "fall"
       ],
       "layering_position": null,
       "rise": "high",
@@ -3353,7 +3320,7 @@
       "wear_cycle_days": 3,
       "excluded_from_capsule": false,
       "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/IMG_5930.png",
-      "notes": "from photo IMG_5930 — красная A-силуэтная юбка-миди с декоративными пуговицами",
+      "notes": "from photo IMG_5930 — красная льняная A-силуэтная юбка-миди с декоративными пуговицами",
       "photo_id": "IMG_5930",
       "photo_label": "btm-016-red_skirt"
     },
@@ -3361,8 +3328,8 @@
       "id": "out-019",
       "category": "outerwear",
       "subcategory": "silk_robe",
-      "color_primary": "dark_teal",
-      "color_secondary": "yellow",
+      "color_primary": "black",
+      "color_secondary": "multicolor",
       "pattern": "embroidered",
       "pattern_scale": "small",
       "material_guess": "silk",
@@ -3387,9 +3354,9 @@
       "wear_cycle_days": 5,
       "excluded_from_capsule": false,
       "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/IMG_5931.png",
-      "notes": "from photo IMG_5931 — тёмно-зелёный/teal шёлковый халат-кимоно с жёлто-синей вышивкой",
+      "notes": "from photo IMG_5931 — чёрный шёлковый халат-кимоно с разноцветной вышивкой",
       "photo_id": "IMG_5931",
-      "photo_label": "out-019-teal_silk_robe"
+      "photo_label": "out-019-black_silk_robe"
     },
     {
       "id": "lay-010",
@@ -3428,7 +3395,7 @@
       "id": "btm-017",
       "category": "bottom",
       "subcategory": "skirt",
-      "color_primary": "beige",
+      "color_primary": "olive",
       "color_secondary": null,
       "pattern": "ribbed",
       "material_guess": "knit",
@@ -3453,9 +3420,9 @@
       "wear_cycle_days": 2,
       "excluded_from_capsule": false,
       "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/IMG_5933.png",
-      "notes": "from photo IMG_5933 — бежевая трикотажная мини-юбка в рубчик/плиссе",
+      "notes": "from photo IMG_5933 — оливковая трикотажная мини-юбка в рубчик/плиссе",
       "photo_id": "IMG_5933",
-      "photo_label": "btm-017-beige_ribbed_mini_skirt"
+      "photo_label": "btm-017-olive_ribbed_mini_skirt"
     },
     {
       "id": "top-032",
