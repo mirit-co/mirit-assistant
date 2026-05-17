@@ -1,7 +1,7 @@
 {
   "version": 2,
   "created_at": "2026-05-09T12:00:00Z",
-  "updated_at": "2026-05-17T09:30:00Z",
+  "updated_at": "2026-05-17T10:50:00Z",
   "profile": {
     "height_cm": 150,
     "weight_kg": 40,
@@ -3258,6 +3258,239 @@
       "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/IMG_5920.png",
       "photo_label": "acc-018-rust_scarf_stripe",
       "notes": "from photo IMG_5920 — большой шарф ржаво-горчично-чёрный, бахрома"
+    },
+    {
+      "id": "btm-015",
+      "category": "bottom",
+      "subcategory": "trousers",
+      "color_primary": "beige",
+      "color_secondary": null,
+      "pattern": "solid",
+      "material_guess": "linen_cotton_blend",
+      "fabric_weight": "medium",
+      "fit": "wide_leg",
+      "silhouette": "wide",
+      "formality": 3,
+      "season": [
+        "spring",
+        "summer",
+        "fall"
+      ],
+      "layering_position": null,
+      "rise": "high",
+      "length": "full",
+      "condition": "excellent",
+      "style_tags": [
+        "smart-casual",
+        "minimalist",
+        "versatile"
+      ],
+      "wear_cycle_days": 3,
+      "excluded_from_capsule": false,
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/IMG_5928.png",
+      "notes": "from photo IMG_5928 — бежевые широкие брюки с высокой посадкой, льняной хлопок",
+      "photo_id": "IMG_5928",
+      "photo_label": "btm-015-beige_trousers"
+    },
+    {
+      "id": "out-018",
+      "category": "outerwear",
+      "subcategory": "rain_jacket",
+      "color_primary": "sage_blue",
+      "color_secondary": null,
+      "pattern": "solid",
+      "material_guess": "nylon",
+      "fabric_weight": "lightweight",
+      "fit": "regular",
+      "silhouette": "relaxed",
+      "formality": 1,
+      "season": [
+        "spring",
+        "fall"
+      ],
+      "layering_position": "outer",
+      "sleeve_length": "long",
+      "length": "regular",
+      "condition": "excellent",
+      "style_tags": [
+        "sporty",
+        "practical",
+        "casual"
+      ],
+      "wear_cycle_days": 5,
+      "excluded_from_capsule": false,
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/IMG_5929.png",
+      "notes": "from photo IMG_5929 — светло-голубой/sage дождевик-ветровка с капюшоном",
+      "photo_id": "IMG_5929",
+      "photo_label": "out-018-sage_rain_jacket"
+    },
+    {
+      "id": "btm-016",
+      "category": "bottom",
+      "subcategory": "skirt",
+      "color_primary": "red",
+      "color_secondary": null,
+      "pattern": "solid",
+      "material_guess": "wool_blend",
+      "fabric_weight": "medium",
+      "fit": "a_line",
+      "silhouette": "a_line",
+      "formality": 2,
+      "season": [
+        "fall",
+        "winter",
+        "spring"
+      ],
+      "layering_position": null,
+      "rise": "high",
+      "length": "midi",
+      "condition": "excellent",
+      "style_tags": [
+        "statement",
+        "boho",
+        "retro"
+      ],
+      "wear_cycle_days": 3,
+      "excluded_from_capsule": false,
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/IMG_5930.png",
+      "notes": "from photo IMG_5930 — красная A-силуэтная юбка-миди с декоративными пуговицами",
+      "photo_id": "IMG_5930",
+      "photo_label": "btm-016-red_skirt"
+    },
+    {
+      "id": "out-019",
+      "category": "outerwear",
+      "subcategory": "silk_robe",
+      "color_primary": "dark_teal",
+      "color_secondary": "yellow",
+      "pattern": "embroidered",
+      "pattern_scale": "small",
+      "material_guess": "silk",
+      "fabric_weight": "lightweight",
+      "fit": "relaxed",
+      "silhouette": "relaxed",
+      "formality": 3,
+      "season": [
+        "spring",
+        "summer",
+        "fall"
+      ],
+      "layering_position": "outer",
+      "sleeve_length": "long",
+      "length": "long",
+      "condition": "good",
+      "style_tags": [
+        "boho",
+        "statement",
+        "eclectic"
+      ],
+      "wear_cycle_days": 5,
+      "excluded_from_capsule": false,
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/IMG_5931.png",
+      "notes": "from photo IMG_5931 — тёмно-зелёный/teal шёлковый халат-кимоно с жёлто-синей вышивкой",
+      "photo_id": "IMG_5931",
+      "photo_label": "out-019-teal_silk_robe"
+    },
+    {
+      "id": "lay-010",
+      "category": "layer",
+      "subcategory": "vest_denim",
+      "color_primary": "light_blue",
+      "color_secondary": null,
+      "pattern": "solid",
+      "material_guess": "denim",
+      "fabric_weight": "medium",
+      "fit": "regular",
+      "silhouette": "relaxed",
+      "formality": 1,
+      "season": [
+        "spring",
+        "summer",
+        "fall"
+      ],
+      "layering_position": "mid",
+      "sleeve_length": "sleeveless",
+      "length": "regular",
+      "condition": "excellent",
+      "style_tags": [
+        "casual",
+        "boho",
+        "versatile"
+      ],
+      "wear_cycle_days": 3,
+      "excluded_from_capsule": false,
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/IMG_5932.png",
+      "notes": "from photo IMG_5932 — светлый джинсовый жилет без рукавов",
+      "photo_id": "IMG_5932",
+      "photo_label": "lay-010-light_blue_denim_vest"
+    },
+    {
+      "id": "btm-017",
+      "category": "bottom",
+      "subcategory": "skirt",
+      "color_primary": "beige",
+      "color_secondary": null,
+      "pattern": "ribbed",
+      "material_guess": "knit",
+      "fabric_weight": "medium",
+      "fit": "a_line",
+      "silhouette": "a_line",
+      "formality": 2,
+      "season": [
+        "spring",
+        "summer",
+        "fall"
+      ],
+      "layering_position": null,
+      "rise": "high",
+      "length": "mini",
+      "condition": "excellent",
+      "style_tags": [
+        "casual",
+        "boho",
+        "feminine"
+      ],
+      "wear_cycle_days": 2,
+      "excluded_from_capsule": false,
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/IMG_5933.png",
+      "notes": "from photo IMG_5933 — бежевая трикотажная мини-юбка в рубчик/плиссе",
+      "photo_id": "IMG_5933",
+      "photo_label": "btm-017-beige_ribbed_mini_skirt"
+    },
+    {
+      "id": "top-032",
+      "category": "top",
+      "subcategory": "shirt",
+      "color_primary": "red",
+      "color_secondary": "blue",
+      "pattern": "plaid",
+      "pattern_scale": "medium",
+      "material_guess": "cotton_flannel",
+      "fabric_weight": "medium",
+      "fit": "regular",
+      "silhouette": "relaxed",
+      "formality": 1,
+      "season": [
+        "fall",
+        "winter",
+        "spring"
+      ],
+      "layering_position": "base",
+      "neckline": "collared",
+      "sleeve_length": "long",
+      "length": "regular",
+      "condition": "good",
+      "style_tags": [
+        "casual",
+        "grunge",
+        "versatile"
+      ],
+      "wear_cycle_days": 2,
+      "excluded_from_capsule": false,
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/IMG_5934.png",
+      "notes": "from photo IMG_5934 — клетчатая рубашка H&M в красно-сине-белую клетку",
+      "photo_id": "IMG_5934",
+      "photo_label": "top-032-red_plaid_shirt"
     }
   ]
 }
