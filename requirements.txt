@@ -11,4 +11,4 @@ google-cloud-storage>=2.0.0
 # test deps
 pytest
 pytest-asyncio
-telethon
+telethon<1.43  # 1.43.x ships speculative layer 225 message ctor (9cb490e9) that breaks deserialization of production messages (9815cec8)

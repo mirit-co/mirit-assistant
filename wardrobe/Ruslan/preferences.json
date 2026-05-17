@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "updated_at": "2026-05-05T10:30:00Z",
+  "updated_at": "2026-05-17T09:45:00Z",
   "lifestyle_pie": {
-    "work_in_office": 0.00,
-    "work_from_home": 0.40,
-    "casual": 0.30,
-    "exercise": 0.00,
+    "work_in_office": 0.0,
+    "work_from_home": 0.4,
+    "casual": 0.3,
+    "exercise": 0.0,
     "social": 0.05,
-    "formal": 0.00,
+    "formal": 0.0,
     "lounge": 0.25
   },
   "style_words": {
@@ -16,10 +16,28 @@
     "emotional": "расслаблено"
   },
   "palette": {
-    "neutrals": ["black", "navy", "charcoal", "mid_grey"],
-    "mains": ["burgundy", "forest_green", "olive"],
-    "accents": ["orange", "purple"],
-    "actual_top5": ["black", "navy", "burgundy", "mid_grey", "olive"],
+    "neutrals": [
+      "black",
+      "navy",
+      "charcoal",
+      "mid_grey"
+    ],
+    "mains": [
+      "burgundy",
+      "forest_green",
+      "olive"
+    ],
+    "accents": [
+      "orange",
+      "purple"
+    ],
+    "actual_top5": [
+      "black",
+      "navy",
+      "burgundy",
+      "mid_grey",
+      "olive"
+    ],
     "notes": "смуглая кожа + тёмные волосы — глубокие цвета работают хорошо, яркие акценты тоже"
   },
   "climate": {
@@ -47,5 +65,6 @@
     "formal_occasions": "1-2 раза в месяц, рубашка + брюки",
     "daily_context": "WFH + один выход на улицу в день",
     "key_audience": "жена — важна аккуратность в повседневных выходах"
-  }
+  },
+  "include_sport_in_capsule": false
 }

@@ -367,25 +367,70 @@ let them choose what to act on.
 - The user's calendar / activity plan for the week, OR the lifestyle pie
   if no specific calendar is given
 
+### Sport / activewear inclusion (per-user)
+
+Whether `category: sport` items belong in the weekly capsule pool depends on
+`preferences.json → include_sport_in_capsule` (boolean):
+
+- **`true`** (e.g. Mariana): include sport items as a separate `pool.sport`
+  bucket. She wears them for daily activities (gym, walks, school runs), so
+  they belong in the rotation.
+- **`false`** (e.g. Ruslan): exclude sport items entirely from the capsule.
+  Sport is a separate context, not part of his everyday outfit pool.
+
+If the field is missing, default to `false` and ask the user once before
+generating. Honor `excluded_from_capsule: true` on individual items
+regardless of the per-user default.
+
 ### Step-by-step
 
 1. **Get the weather.** Always use the `mcp__open-meteo__get_weather` MCP tool —
    pass the user's city (read from `preferences.json → city` field, or ask if not
    set). Never hardcode weather data or ask the user to provide forecasts manually.
-   The tool returns current conditions + 7-day forecast; extract `high_c`, `low_c`,
-   and precipitation for each day. Note temperature range across the week —
-   this drives the layering plan.
+   The tool returns current conditions + 7-day forecast as
+   `YYYY-MM-DD  low_c°–high_c°C  condition  precip_mm` rows.
+
+   **Two-temperature read for the morning/afternoon split.** The MCP returns
+   only daily lows and highs (no hourly), so map them directly:
+   - **`low_c` → morning** (≈ pre-sunrise to ~9 am, what the user feels
+     leaving the house)
+   - **`high_c` → afternoon** (≈ 13:00–16:00 daily peak)
+
+   For each day extract: `low_c`, `high_c`, `delta = high_c − low_c`,
+   `condition`, `precip_mm`. Record `delta` per day:
+   - **`delta ≥ 6°C`** → meaningfully different morning vs afternoon; the two
+     outfit variants should differ on a real temperature slot (layer on/off,
+     shorts ↔ trousers, tee ↔ long-sleeve).
+   - **`delta < 3°C`** → temperature is stable; morning and afternoon variants
+     can be identical (the renderer collapses them to one line).
+   - **`3°C ≤ delta < 6°C`** → optional second variant: small swap if it
+     adds value, otherwise keep them identical.
+
+   Note the temperature range and `delta` pattern across the week — this drives
+   the layering plan AND signals which days need two distinct variants.
 
 2. **Get the activity plan.** Either pull from a stated calendar
    ("Monday client meeting, Tuesday WFH, Wednesday gym then dinner...") or
    distribute the lifestyle pie across 7 days. Tag each day with a primary
    activity bucket.
 
-3. **Pick outfit formulas per day.** For each day, choose 1 formula from
-   `references/outfit-formulas.md` that matches:
-   - Activity bucket (work/casual/social/etc)
-   - Temperature range (warm/cool/cold)
-   - Precipitation (whether outerwear must be waterproof)
+3. **Pick outfit formulas per day — two variants (morning / afternoon).**
+   Use the per-day `delta` from step 1 to decide whether the day needs two
+   distinct variants or a single shared one. When two are warranted, choose
+   **two** formulas from `references/outfit-formulas.md`:
+   - **Cool variant** for the morning (sized for `low_c`)
+   - **Warm variant** for the afternoon (sized for `high_c`)
+
+   Both variants match the same activity bucket and precipitation conditions —
+   only temperature differs. Keep the two variants as overlapping as possible:
+   ideally share the top OR the bottom, and swap only the temperature-sensitive
+   piece (e.g. same tee, but shorts ↔ trousers; or same jeans, but tee ↔
+   long-sleeve + light layer). The goal is one coherent daily outfit that the
+   user adjusts as the day warms up, not two unrelated outfits.
+
+   This also gives resilience if the weekly forecast shifts: either variant
+   alone is wearable, and the user can pick based on actual conditions that
+   morning.
 
 4. **Fill the formula slots from inventory.** For each formula slot
    (top, bottom, third piece, shoes, outer layer), pick from items that:
@@ -428,14 +473,18 @@ Mon-Wed WFH, Thu in-office + dinner, Fri casual day, Sat-Sun social
 **Outerwear**: out-001 (rain jacket), out-003 (denim jacket)
 **Shoes**: shoe-002 (white sneakers), shoe-004 (brown loafers), shoe-001 (chelsea boots)
 
-## Daily anchor outfits
-**Mon (cool/rainy/WFH)**: top-007 + btm-001 + lay-002 + shoe-001 + out-001
-**Tue (cool/rainy/WFH)**: top-003 + btm-004 + lay-002 + shoe-001 + out-001
-**Wed (warm/WFH)**: top-003 + btm-004 + shoe-002
-**Thu (warm/in-office+dinner)**: top-012 + btm-001 + lay-005 + shoe-004
-**Fri (mild/casual)**: top-007 + btm-001 + out-003 + shoe-002
-**Sat (mild/social)**: top-012 + btm-001 + lay-005 + shoe-004
-**Sun (mild/casual)**: top-003 + btm-004 + out-003 + shoe-002
+## Daily anchor outfits (morning / afternoon)
+**Mon (cool→cool, rainy, WFH)**
+- 🌅 morning: top-007 + btm-001 + lay-002 + shoe-001 + out-001
+- ☀️ afternoon: top-007 + btm-001 + shoe-001 + out-001  *(drop the cardigan)*
+
+**Wed (cool→warm, WFH)**
+- 🌅 morning: top-003 + btm-004 + lay-002 + shoe-002
+- ☀️ afternoon: top-003 + btm-004 + shoe-002  *(same base, layer off)*
+
+**Thu (warm→hot, in-office + dinner)**
+- 🌅 morning: top-012 + btm-001 + lay-005 + shoe-004
+- ☀️ afternoon: top-012 + btm-002 + shoe-004  *(jeans → shorts, same shirt)*
 
 ## Laundry forecast
 - Wash tops Wed evening (3 worn next-to-skin)
@@ -445,18 +494,42 @@ Mon-Wed WFH, Thu in-office + dinner, Fri casual day, Sat-Sun social
 
 ### Daily anchor JSON fields
 
-Each entry in `daily_anchors` must have:
+Each entry in `daily_anchors` must have **two variants** — `morning` (cool)
+and `afternoon` (warm) — that share as many items as possible:
 
 ```json
 {
   "day": "Mon",
-  "formula": "...",
-  "items": ["top-007", "btm-001", "lay-006", "shoe-001"],
+  "date": "11 мая",
+  "weather": "🌦 14–22°C, утром прохладно, днём теплеет",
   "color_story": "голубой + светлый деним + кремовый жилет",
   "caption": "Ажур + полоска = интересный контраст. Деним даёт непринуждённость.",
-  "photo_urls": { "top-007": "https://...", ... }
+  "morning": {
+    "temp_label": "🌅 утро 14°C",
+    "formula": "crochet top + jeans + cardigan + sneakers",
+    "items": ["top-007", "btm-001", "lay-006", "shoe-001"]
+  },
+  "afternoon": {
+    "temp_label": "☀️ день 22°C",
+    "formula": "crochet top + jeans + sneakers",
+    "items": ["top-007", "btm-001", "shoe-001"]
+  },
+  "photo_urls": {
+    "top-007": "https://...",
+    "btm-001": "https://...",
+    "lay-006": "https://...",
+    "shoe-001": "https://..."
+  }
 }
 ```
+
+**Rules for the two variants:**
+- Share at least one anchor piece (top or bottom) — usually both.
+- Differ on the temperature-driven slot: add/remove a layer, swap shorts ↔
+  trousers, swap tee ↔ long-sleeve, etc.
+- `photo_urls` is one combined map covering every item used in either variant
+  (no duplication needed per-variant).
+- `color_story` and `caption` describe the day as a whole, not each variant.
 
 **`caption`** — одна короткая фраза (1–2 предложения) о настроении/логике образа.
 НЕ перечислять одежду — она уже показана ссылками выше. Писать только то, что
@@ -465,12 +538,16 @@ Each entry in `daily_anchors` must have:
 Хорошо: `"Гроза — день дома. Яркий образ для комфортного дня + выход в школу."`
 Плохо: `"Малиновая рубашка + серая юбка + жилет = яркий образ."` ← дублирует список вещей.
 
-**Telegram-рендер одного дня** выглядит так:
+**Telegram-рендер одного дня** показывает оба варианта:
 ```
-Пятница, 15 мая — ⛈ 21°C
-Малиновая рубашка · Серая джинсовая юбка · Бохо-жилет · Белые кеды
+Пятница, 15 мая — ⛈ 14–22°C
+🌅 утро: Малиновая рубашка · Джинсы · Бохо-жилет · Белые кеды
+☀️ день: Малиновая рубашка · Шорты · Белые кеды
 Гроза — день дома. Яркий образ для комфортного дня + выход в школу.
 ```
+
+Если разница между утром и днём <3°C — можно показать один общий вариант
+(оба объекта в JSON идентичны), и рендер сворачивается в одну строку.
 
 Save the plan to `data/capsule/{ISO-week}.json`.
 
