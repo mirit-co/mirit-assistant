@@ -1,7 +1,7 @@
 {
   "version": 1,
   "created_at": "2026-05-05T10:00:00Z",
-  "updated_at": "2026-05-09T19:00:00Z",
+  "updated_at": "2026-05-17T10:55:00Z",
   "items": [
     {
       "id": "btm-001",
@@ -158,7 +158,7 @@
     },
     {
       "id": "top-002",
-      "category": "top",
+      "category": "layer",
       "subcategory": "sweatshirt",
       "color_primary": "navy",
       "color_secondary": null,
@@ -236,7 +236,7 @@
     },
     {
       "id": "top-003",
-      "category": "top",
+      "category": "layer",
       "subcategory": "sweater_pullover",
       "color_primary": "navy",
       "color_secondary": null,
@@ -353,7 +353,7 @@
     },
     {
       "id": "top-004",
-      "category": "top",
+      "category": "layer",
       "subcategory": "hoodie",
       "color_primary": "purple",
       "color_secondary": null,
@@ -1229,6 +1229,37 @@
       "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5793.png",
       "photo_id": "IMG_5793",
       "photo_label": "top-021-navy_button_down"
+    },
+    {
+      "id": "btm-010",
+      "category": "bottom",
+      "subcategory": "trousers",
+      "color_primary": "taupe",
+      "color_secondary": null,
+      "pattern": "solid",
+      "material_guess": "cotton_twill",
+      "fabric_weight": "medium",
+      "fit": "relaxed",
+      "silhouette": "wide_leg",
+      "formality": 3,
+      "season": [
+        "spring",
+        "fall",
+        "winter"
+      ],
+      "rise": "high",
+      "length": "full",
+      "condition": "excellent",
+      "style_tags": [
+        "smart_casual",
+        "tailored"
+      ],
+      "wear_cycle_days": 3,
+      "excluded_from_capsule": false,
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5794.png",
+      "notes": "from photo IMG_5794 — бежево-тауповые широкие штаны со складками, плотный твил, smart-casual",
+      "photo_id": "IMG_5794",
+      "photo_label": "btm-010-taupe_trousers_pleated"
     }
   ]
 }
