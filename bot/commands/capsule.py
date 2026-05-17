@@ -216,19 +216,36 @@ def format_weekly_overview(capsule: dict, inventory: dict) -> str:
             high = weather.get("high_c", "")
             temp_str = f"{emoji} {high}°C" if high != "" else anchor.get("temp", "")
 
-        item_labels = []
-        for iid in anchor.get("items", []):
-            inv = inventory.get(iid)
-            lbl = item_label(inv) if inv else iid
-            # New format: photo_urls dict in anchor; fallback to inventory
-            photo_urls = anchor.get("photo_urls", {})
-            url = photo_urls.get(iid) or (inv.get("photo_url") if inv else None)
-            item_labels.append(f'<a href="{url}">{lbl}</a>' if url else lbl)
-        caption = anchor.get("caption") or anchor.get("rationale", "")
+        photo_urls = anchor.get("photo_urls", {})
 
+        def _render_items(ids: list) -> str:
+            parts = []
+            for iid in ids:
+                inv = inventory.get(iid)
+                lbl = item_label(inv) if inv else iid
+                url = photo_urls.get(iid) or (inv.get("photo_url") if inv else None)
+                parts.append(f'<a href="{url}">{lbl}</a>' if url else lbl)
+            return " · ".join(parts)
+
+        caption = anchor.get("caption") or anchor.get("rationale", "")
         header = f"<b>{day_ru}, {date_label}</b> — {temp_str}" if date_label else f"<b>{day_ru}</b> — {temp_str}"
         lines.append(header)
-        lines.append(" · ".join(item_labels))
+
+        morning = anchor.get("morning")
+        afternoon = anchor.get("afternoon")
+        if morning and afternoon:
+            m_items = morning.get("items", [])
+            a_items = afternoon.get("items", [])
+            if m_items == a_items:
+                lines.append(_render_items(m_items))
+            else:
+                m_lbl = morning.get("temp_label", "🌅 утро")
+                a_lbl = afternoon.get("temp_label", "☀️ день")
+                lines.append(f"{m_lbl}: {_render_items(m_items)}")
+                lines.append(f"{a_lbl}: {_render_items(a_items)}")
+        else:
+            lines.append(_render_items(anchor.get("items", [])))
+
         if caption:
             lines.append(f"<i>{caption}</i>")
         lines.append("")
