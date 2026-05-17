@@ -600,6 +600,23 @@ inv = {it['id']: it for it in json.load(open(f'wardrobe/{user}/inventory.json'))
 out = format_weekly_overview(cap, inv)
 assert '<a href=' in out, "Render is missing photo links!"
 assert out.count('<a href=') >= 14, f"Too few links: {out.count('<a href=')}"
+
+# Pool ↔ daily_anchors consistency check
+pool_ids = {it['id'] for cat in cap['pool'].values() for it in cat}
+used_ids = set()
+for d in cap['daily_anchors']:
+    for v in ('morning', 'afternoon'):
+        used_ids.update(d.get(v, {}).get('items', []))
+    used_ids.update(d.get('items', []))  # legacy flat anchors
+
+unused = pool_ids - used_ids
+orphan = used_ids - pool_ids
+assert not orphan, f"Anchors reference items not in pool: {orphan}"
+assert not unused, (
+    f"Pool has items not used in any daily anchor: {unused}. "
+    "Either assign them to a day's morning/afternoon, or remove them from the pool. "
+    "The checklist is built from the pool — unused items show up as 'extra' tickbox rows."
+)
 ```
 
 Save the plan to `data/capsule/{ISO-week}.json`.
