@@ -34,6 +34,12 @@ clear (see `references/methodologies.md`).
 All wardrobe files are **per-user** — use the appropriate subfolder based on
 who you're working with. Current users: `Ruslan`, `Mariana`.
 
+**Имя по-русски — «Марьяна»** (с мягким знаком). НЕ «Мариана», НЕ «Марианна»,
+НЕ «Марьянна». Это касается любого русского текста в капсулах
+(`caption`, `editor_note`, `weather_summary`, `activity_summary`,
+`laundry_forecast`) и в отчётах боту. Латиница `Mariana` остаётся как
+техническое имя папок и user-ключа в JSON — её не трогать.
+
 ```
 wardrobe/
 └── <user>/
