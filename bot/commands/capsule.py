@@ -248,6 +248,9 @@ def format_weekly_overview(capsule: dict, inventory: dict) -> str:
 
         if caption:
             lines.append(f"<i>{caption}</i>")
+        editor_note = anchor.get("editor_note")
+        if editor_note:
+            lines.append(f"💋 <i>{editor_note}</i>")
         lines.append("")
 
     return "\n".join(lines).strip()

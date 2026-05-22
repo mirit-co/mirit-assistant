@@ -18,9 +18,12 @@ allowed-tools: Bash
 **Можно пропустить тесты** если изменилось только:
 - Переменные окружения / секреты (`.env`, токены, ключи API)
 - Конфигурация деплоя (`Dockerfile`, `docker-compose.yml`, GitHub Actions)
-- Документация (`CLAUDE.md`, `README`, скиллы)
+- Документация (`CLAUDE.md`, `README`, скиллы — включая `.claude/skills/**/SKILL.md` и methodology-доки)
 - `config.py` без изменений логики (только новая переменная)
 - Зависимости (`requirements.txt`) без смены мажорных версий
+- **Капсулы и инвентарь** — генерация / правки `data/capsule/<user>/YYYY-Www.json`, `wardrobe/<user>/inventory.json`, `wardrobe/<user>/preferences.json`. Это pure data, тесты ничего про их содержимое не проверяют.
+
+Кратко: тесты нужны только если менялся функционал (код в `bot/`, `storage/`, `main.py`). Составление капсулы, дописывание инструкций в скиллах, обновление инвентаря — тесты не нужны.
 
 ---
 
