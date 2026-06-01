@@ -1,7 +1,7 @@
 {
   "version": 2,
   "created_at": "2026-05-09T12:00:00Z",
-  "updated_at": "2026-05-17T11:10:00Z",
+  "updated_at": "2026-06-01",
   "profile": {
     "height_cm": 150,
     "weight_kg": 40,
@@ -3458,6 +3458,124 @@
       "notes": "from photo IMG_5934 — клетчатая рубашка H&M в красно-сине-белую клетку",
       "photo_id": "IMG_5934",
       "photo_label": "top-032-red_plaid_shirt"
+    },
+    {
+      "id": "top-033",
+      "category": "top",
+      "subcategory": "shirt",
+      "color_primary": "brown",
+      "color_secondary": "white",
+      "pattern": "floral",
+      "pattern_scale": "fine",
+      "material_guess": "viscose",
+      "fabric_weight": "lightweight",
+      "fit": "fitted",
+      "silhouette": "regular",
+      "formality": 3,
+      "season": [
+        "spring",
+        "summer",
+        "fall"
+      ],
+      "layering_position": "base",
+      "neckline": "collared",
+      "sleeve_length": "long",
+      "rise": null,
+      "length": "regular",
+      "condition": "new",
+      "style_tags": [
+        "smart-casual",
+        "print",
+        "feminine"
+      ],
+      "wear_cycle_days": 2,
+      "excluded_from_capsule": false,
+      "confidence": {
+        "material": "medium",
+        "fit": "high"
+      },
+      "notes": "from photo top-033 (IMG 2026-06-01) — приталенная рубашка в мелкий цветочный принт (тёмно-коричневый/бордовый фон, бело-розовые цветы), новая с биркой",
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/top-033-floral_print_shirt_mariana.png",
+      "photo_id": "top-033",
+      "photo_label": "top-033-floral_print_shirt"
+    },
+    {
+      "id": "top-034",
+      "category": "top",
+      "subcategory": "crop_top",
+      "color_primary": "brown",
+      "color_secondary": "white",
+      "pattern": "floral",
+      "pattern_scale": "medium",
+      "material_guess": "jersey",
+      "fabric_weight": "lightweight",
+      "fit": "fitted",
+      "silhouette": "cropped",
+      "formality": 2,
+      "season": [
+        "spring",
+        "summer"
+      ],
+      "layering_position": "base",
+      "neckline": "square",
+      "sleeve_length": "long",
+      "rise": null,
+      "length": "cropped",
+      "condition": "new",
+      "style_tags": [
+        "casual",
+        "playful",
+        "print",
+        "retro"
+      ],
+      "wear_cycle_days": 2,
+      "excluded_from_capsule": false,
+      "confidence": {
+        "material": "medium",
+        "fit": "high"
+      },
+      "notes": "from photo top-034 (IMG 2026-06-01) — кроп-топ Monki в ромашковый принт на коричневом фоне, квадратный вырез, длинный рукав, новый с биркой",
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/top-034-brown_daisy_crop_top_mariana.png",
+      "photo_id": "top-034",
+      "photo_label": "top-034-brown_daisy_crop_top"
+    },
+    {
+      "id": "btm-018",
+      "category": "bottom",
+      "subcategory": "trousers",
+      "color_primary": "cream",
+      "color_secondary": null,
+      "pattern": "solid",
+      "pattern_scale": null,
+      "material_guess": "cotton_twill",
+      "fabric_weight": "medium",
+      "fit": "straight",
+      "silhouette": "straight",
+      "formality": 3,
+      "season": [
+        "spring",
+        "summer",
+        "fall"
+      ],
+      "layering_position": null,
+      "rise": "mid",
+      "length": "full",
+      "condition": "new",
+      "style_tags": [
+        "smart-casual",
+        "minimalist",
+        "versatile"
+      ],
+      "wear_cycle_days": 3,
+      "excluded_from_capsule": false,
+      "confidence": {
+        "material": "medium",
+        "fit": "high"
+      },
+      "notes": "from photo btm-018 (IMG 2026-06-01) — кремовые прямые брюки Jack & Jones, плотный хлопок/твил, новые с биркой",
+      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Mariana/btm-018-cream_trousers_mariana.png",
+      "photo_id": "btm-018",
+      "photo_label": "btm-018-cream_trousers"
     }
   ]
 }
