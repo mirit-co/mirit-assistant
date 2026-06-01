@@ -57,5 +57,6 @@
   "routine_notes": "Утром везёт ребёнка в школу, после обеда забирает — нужно выглядеть хорошо при выходе, но комфортно дома.",
   "pain_points": [],
   "favorite_items": [],
-  "include_sport_in_capsule": true
+  "include_sport_in_capsule": true,
+  "no_repeat_tops_within_week": true
 }

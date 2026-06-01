@@ -119,44 +119,6 @@
       "photo_label": "top-001-purple_tee"
     },
     {
-      "id": "btm-003",
-      "category": "bottom",
-      "subcategory": "shorts",
-      "color_primary": "light_grey",
-      "color_secondary": null,
-      "pattern": "solid",
-      "pattern_scale": null,
-      "material_guess": "cotton",
-      "fabric_weight": "midweight",
-      "fit": "regular",
-      "silhouette": "relaxed",
-      "formality": 1,
-      "season": [
-        "spring",
-        "summer"
-      ],
-      "layering_position": "n/a",
-      "neckline": "n/a",
-      "sleeve_length": "n/a",
-      "rise": "mid",
-      "length": "regular",
-      "condition": "good",
-      "style_tags": [
-        "casual",
-        "lounge"
-      ],
-      "wear_cycle_days": 2,
-      "excluded_from_capsule": false,
-      "confidence": {
-        "material": "high",
-        "fit": "high"
-      },
-      "notes": "from photo IMG_5762 — серые шорты-джоггеры из флиса/свитшотного материала",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5762.png",
-      "photo_id": "IMG_5762",
-      "photo_label": "btm-003-light_grey_shorts"
-    },
-    {
       "id": "top-002",
       "category": "layer",
       "subcategory": "sweatshirt",
@@ -579,44 +541,6 @@
       "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5774.png",
       "photo_id": "IMG_5774",
       "photo_label": "top-009-black_tee"
-    },
-    {
-      "id": "lay-002",
-      "category": "layer",
-      "subcategory": "kimono",
-      "color_primary": "navy",
-      "color_secondary": "white",
-      "pattern": "geometric",
-      "pattern_scale": "large",
-      "material_guess": "synthetic_blend",
-      "fabric_weight": "lightweight",
-      "fit": "relaxed",
-      "silhouette": "drapey",
-      "formality": 2,
-      "season": [
-        "spring",
-        "summer"
-      ],
-      "layering_position": "mid",
-      "neckline": "n/a",
-      "sleeve_length": "short",
-      "rise": null,
-      "length": "regular",
-      "condition": "good",
-      "style_tags": [
-        "statement",
-        "graphic"
-      ],
-      "wear_cycle_days": 5,
-      "excluded_from_capsule": false,
-      "confidence": {
-        "material": "low",
-        "fit": "high"
-      },
-      "notes": "from photo IMG_5775 — кимоно/хапи с принтом Большой волны Хокусая, navy/white",
-      "photo_url": "https://storage.cloud.google.com/rstestbucketname/capsule/Ruslan/IMG_5775.png",
-      "photo_id": "IMG_5775",
-      "photo_label": "lay-002-navy_kimono"
     },
     {
       "id": "top-010",

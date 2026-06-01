@@ -36,7 +36,7 @@ who you're working with. Current users: `Ruslan`, `Mariana`.
 
 **Имя по-русски — «Марьяна»** (с мягким знаком). НЕ «Мариана», НЕ «Марианна»,
 НЕ «Марьянна». Это касается любого русского текста в капсулах
-(`caption`, `editor_note`, `weather_summary`, `activity_summary`,
+(`caption`, `weather_summary`, `activity_summary`,
 `laundry_forecast`) и в отчётах боту. Латиница `Mariana` остаётся как
 техническое имя папок и user-ключа в JSON — её не трогать.
 
@@ -438,6 +438,19 @@ regardless of the per-user default.
    day-of-week slot. Marianna and other users notice "this looks like last
    week" — surface variety even when reusing pieces.
 
+   **No-repeat-tops rule (per-user, controlled by `preferences.json →
+   no_repeat_tops_within_week`):** when `true` (Mariana), **each top may appear
+   on at most one day of the week.** A top used in Monday's `morning`/`afternoon`
+   variants must not reappear on any other day. The morning and afternoon
+   variants of the *same* day may share a top (that's the intended overlap) —
+   the constraint is across days, not within a day. This forces ≥7 distinct
+   tops in the pool. If the inventory can't supply 7 wearable tops for the
+   week's weather, say so (see "When inventory is too small") rather than
+   silently repeating. When the flag is `false` or missing (Ruslan), tops may
+   repeat across days subject only to wear-cycle math. The same does NOT apply
+   to bottoms, layers, outerwear, or shoes — those still rotate by wear-cycle
+   and may repeat.
+
 3. **Get the activity plan.** Either pull from a stated calendar
    ("Monday client meeting, Tuesday WFH, Wednesday gym then dinner...") or
    distribute the lifestyle pie across 7 days. Tag each day with a primary
@@ -577,20 +590,6 @@ and `afternoon` (warm) — that share as many items as possible:
 
 Если разница между утром и днём <3°C — можно показать один общий вариант
 (оба объекта в JSON идентичны), и рендер сворачивается в одну строку.
-
-**`editor_note`** (только для Марьяны, для Руслана НЕ добавлять) — короткий
-комплимент в стиле fashion-журнала (Vogue / Harper's Bazaar / ELLE), 1–2
-предложения. Цель — похвалить выбор, отметить стилевой приём, дать «обложечное»
-ощущение. Допустимо упоминать модные референсы (Copenhagen Fashion Week,
-Côte d'Azur edit, парижские блогерши и т.п.), цветовые пары, силуэт.
-
-Хорошо: `"Aubergine + dusty pink — палитра, которой давно болеет Copenhagen Fashion Week. Мариана интуитивно собирает её для воскресной прогулки — это и есть высокий стиль."`
-Плохо (просто описание): `"Хороший образ для воскресенья."`
-
-Telegram рендерит editor_note с эмодзи 💋 отдельной строкой под `caption`.
-Для пользователей с `include_editor_note_in_capsule: false` (или без флага)
-поле не добавлять в JSON вовсе. Текущая настройка: **Mariana → добавлять,
-Ruslan → не добавлять.**
 
 ### Acceptance criteria для weekly overview (обязательно проверить!)
 
