@@ -124,6 +124,8 @@ def seed_docs_db(tg_client, bot_username, seed_db):
     msg = run(send_and_wait(tg_client, bot_username, "/docs"))
     msg = run(click_and_wait(tg_client, bot_username, msg, "➕ Добавить"))
     msg = run(send_file_and_wait(tg_client, bot_username, str(test_file), caption=TEST_DOC_TITLE))
+    # New flow: after upload the bot shows a tag picker — confirm with "Готово".
+    msg = run(click_and_wait(tg_client, bot_username, msg, "Готово"))
     # Exit the conversation so individual tests start with clean state
     run(click_and_wait(tg_client, bot_username, msg, "← Главное меню"))
 
